@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#08795e">
+  <meta name="description" content="XLXL 中文教程：从安装、Verilog / SystemVerilog 编辑，到工程管理、信号追踪、Icarus 仿真、VCD 波形与 FPGA 构建。">
+  <meta property="og:title" content="XLXL · 从 RTL 到波形的每一步">
+  <meta property="og:description" content="XLXL 插件中文教程与功能文档。附带可运行的计数器示例工程。">
+  <meta property="og:type" content="website">
+  <title>XLXL · 从 RTL 到波形的每一步</title>
+  <link rel="icon" type="image/png" href="./assets/xlxl-icon.png">
+  <link rel="stylesheet" href="./styles.css">
+  <script>try { const t=localStorage.getItem('xlxl-theme'); if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.dataset.theme='dark'; } catch {}</script>
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+  <header class="header">
+    <div class="header-inner">
+      <a href="#/" class="brand" aria-label="XLXL 首页"><span class="brand-mark"><img src="./assets/xlxl-mark.svg" alt=""></span><span>XLXL<span class="brand-divider"></span><span class="brand-docs">教程与文档</span></span></a>
+      <nav class="desktop-nav" aria-label="主导航">
+        <a href="#/" data-nav="home">概览</a>
+        <a href="#/docs/quickstart" data-nav="docs">使用教程</a>
+        <a href="#/docs/commands" data-nav="reference">功能参考</a>
+        <a href="#/docs/faq" data-nav="faq">常见问题</a>
+      </nav>
+      <div class="header-actions">
+        <button class="search-trigger" aria-label="搜索教程"><span class="search-icon"></span><span>搜索文档</span><kbd>Ctrl K</kbd></button>
+        <button class="theme-toggle icon-button" aria-label="切换深色模式" title="切换主题"></button>
+        <a class="header-install" href="#/docs/install">安装插件 <span>↗</span></a>
+        <button class="mobile-toggle icon-button" aria-label="打开导航菜单" aria-expanded="false"><span></span><span></span></button>
+      </div>
+    </div>
+    <nav class="mobile-nav" aria-label="移动导航" hidden><a href="#/">概览</a><a href="#/docs/quickstart">使用教程</a><a href="#/docs/commands">功能参考</a><a href="#/docs/faq">常见问题</a></nav>
+  </header>
+  <main id="main" tabindex="-1"></main>
+  <footer class="footer"><div><a class="footer-logo" href="#/">XLXL<span>让 HDL 开发更顺手。</span></a><p>Verilog / SystemVerilog 开发工具</p></div><div class="footer-links"><a href="#/docs/quickstart">开始使用</a><a href="#/docs/settings">设置参考</a><a href="#/docs/faq">遇到问题</a></div><div class="footer-meta">基于 XLXL v1.1.2 · MIT License<br><span>教程依据插件文档与实际命令编写</span></div></footer>
+  <dialog id="search-dialog" aria-labelledby="search-title">
+    <div class="search-input-wrap"><span class="search-icon"></span><label class="sr-only" id="search-title" for="search-input">搜索 XLXL 教程</label><input id="search-input" placeholder="搜索功能、命令或设置…" autocomplete="off"><button class="close-search" aria-label="关闭搜索"><kbd>Esc</kbd></button></div>
+    <div id="search-results" role="list" aria-live="polite"></div>
+    <div class="search-bottom"><span>搜索全部教程正文</span><span><kbd>↑</kbd><kbd>↓</kbd> 选择 <kbd>Enter</kbd> 打开</span></div>
+  </dialog>
+  <div id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

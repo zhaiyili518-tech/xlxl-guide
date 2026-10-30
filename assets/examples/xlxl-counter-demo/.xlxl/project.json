@@ -1,0 +1,13 @@
+{
+  "name": "xlxl-counter-demo",
+  "topModule": "counter",
+  "simulationTopModule": "tb_counter",
+  "sources": [
+    "rtl/**/*.v"
+  ],
+  "simulationSources": [
+    "sim/**/*.v"
+  ],
+  "includePaths": [],
+  "defines": []
+}
