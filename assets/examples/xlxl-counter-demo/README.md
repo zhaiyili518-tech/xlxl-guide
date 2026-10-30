@@ -1,6 +1,7 @@
 # XLXL 计数器入门工程
 
 一个可直接打开的 Verilog 工程：8 位计数器、带自检的 Testbench，以及 XLXL 工程配置。适合练习工程识别、模块导航、Icarus 仿真和 VCD 波形查看。
+> **示例范围**：此下载包是精简的 Icarus 仿真练习工程，只含 `.xlxl/project.json`、`rtl/counter.v`、`sim/tb_counter.v` 和本说明；不是“创建厂商工程”向导生成的完整目录。完整工程另有 `doc/`、`prj/`、`constraints/`、`rvl/`、`ip/`、`fw/`、`include/` 等目录，请通过插件向导创建。
 
 ## 1. 准备环境
 
@@ -61,4 +62,5 @@ xlxl-counter-demo/
 └── README.md
 ```
 
+`sim/` 保存你编写的 Testbench 源文件；插件运行仿真后生成的 `.xlxl/sim/<id>/` 是编译产物与结果记录的缓存目录，两者用途不同。本例从工程根目录启动仿真，且 `$dumpfile("wave.vcd")` 使用相对路径，因此波形输出到工程根目录的 `wave.vcd`。
 `counter.v` 只在 `enable=1` 的时钟上升沿加一；`rst_n=0` 时异步清零。修改计数器后重新仿真，利用自检结果和波形验证行为。

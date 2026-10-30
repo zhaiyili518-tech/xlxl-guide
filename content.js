@@ -18,15 +18,31 @@ export const groups = [
 ];
 
 const projectExample = `{
-  "name": "counter-demo",
+  "name": "xlxl-counter-demo",
   "topModule": "counter",
   "simulationTopModule": "tb_counter",
-  "sources": ["rtl/**/*.{v,vh,sv,svh}"],
-  "ipSources": ["ip/**/*.{v,vh,sv,svh}"],
-  "simulationSources": ["sim/**/*.{v,vh,sv,svh}"],
-  "includePaths": ["include", "rtl", "ip"],
+  "sources": ["rtl/**/*.v"],
+  "simulationSources": ["sim/**/*.v"],
+  "includePaths": [],
   "defines": []
 }`;
+const generatedProjectTree = `工作区根目录/
+├─ .xlxl/
+│  ├─ project.json
+│  ├─ lint/
+│  │  ├─ vivado/
+│  │  └─ questa/
+│  ├─ toolchain/
+│  └─ sim/
+├─ doc/
+├─ prj/
+├─ constraints/
+├─ rvl/
+├─ rtl/
+├─ sim/
+├─ ip/
+├─ fw/
+└─ include/`;
 const formatExample = `{
   "[verilog]": {
     "editor.defaultFormatter": "zhaiyl.xlxl",
@@ -517,42 +533,43 @@ export const articles = [
     section('requirements', '准备开发环境', `<p>XLXL 将 Verilog / SystemVerilog 的编辑、工程管理、诊断、仿真与波形查看放进 VS Code。本文档对应 <strong>1.1.2</strong>；插件完整 ID 为 <code>zhaiyl.xlxl</code>，要求 VS Code 1.85.0 或兼容的更新版本。</p><ul><li>Windows x64 已附带 Slang 语义服务与 Verible 格式化器。</li><li>Icarus Verilog、Vivado、ModelSim、QuestaSim 和 FPGA 厂商软件按使用需要自行安装。</li><li>其他平台需自行提供适用的 Slang 与 Verible 工具。</li></ul>${note('只体验补全、导航和格式化时，可以先安装 XLXL，随后再配置仿真或 FPGA 工具。')}`),
     section('install-vsix', '通过 VSIX 安装', `<ol><li>取得 XLXL 的 <code>.vsix</code> 安装包，核对版本和发布者 <code>zhaiyl</code>。</li><li>在 VS Code 打开扩展视图，点击右上角“…”并选择“从 VSIX 安装…”。</li><li>选择安装包，完成后按 VS Code 提示重新加载窗口。</li><li>在扩展详情中确认名称为 XLXL、插件 ID 为 <code>zhaiyl.xlxl</code>。</li></ol><p>也可在配置好 VS Code 命令行后安装本地包：</p>${code('PowerShell', 'code --install-extension .\\xlxl-1.1.2.vsix')}<p>如果安装较新版本，替换上述文件名；不要使用历史发布者 <code>xlxl.xlxl</code> 作为设置或格式化器 ID。</p>`),
     section('activate', '打开第一个 HDL 工作区', `<ol><li>用“文件 → 打开文件夹”打开工程根目录。</li><li>打开一个 <code>.v</code> 或 <code>.sv</code> 文件，确认右下角语言为 Verilog 或 SystemVerilog。</li><li>在受信任的 Windows x64 本地工作区中，等待 Slang 语义服务就绪。</li><li>点击左侧 XLXL 图标，查看 Project、Modules 和 Toolchain。</li></ol><p>预期结果：编辑器识别 HDL，命令面板中可以找到 XLXL 命令。尚未建立 <code>.xlxl/project.json</code> 时，Project 会提示缺少工程配置；基础编辑功能仍可使用。</p>`),
-    section('next', '验证安装并继续', `<p>在 HDL 中输入 <code>module</code> 后按 <code>Ctrl+Space</code> 查看模板，按 <code>Shift+Alt+F</code> 试用格式化。如果安装了多个格式化插件，在“使用…格式化文档”中选择 XLXL。</p><p>需要重新打开本站时，在命令面板执行 <strong>XLXL：使用教程</strong>（<code>xlxl.openTutorial</code>），或点击 Toolchain 中的“使用教程”、Project 标题栏的书本图标。</p><p>从 Toolchain 点击“打开 XLXL 设置”，或在 VS Code 设置中搜索 <code>@ext:zhaiyl.xlxl</code>。接下来按 ${link('quickstart', '十分钟跑通计数器')} 完成第一次仿真；已有工程请阅读 ${link('project', '工程配置')}。</p>`),
+    section('next', '验证安装并继续', `<p>在 HDL 中输入 <code>module</code> 后按 <code>Ctrl+Space</code> 查看模板，按 <code>Shift+Alt+F</code> 试用格式化。如果安装了多个格式化插件，在“使用…格式化文档”中选择 XLXL。</p><p><strong>1.1.2 新增入口：</strong>在命令面板执行 <strong>XLXL：使用教程</strong>（<code>xlxl.openTutorial</code>），或点击 Toolchain 中的“使用教程”、Project 标题栏的书本图标。1.1.1 没有这些教程入口，本文的工程创建与目录流程在 1.1.1 中相同。</p><p>从 Toolchain 点击“打开 XLXL 设置”，或在 VS Code 设置中搜索 <code>@ext:zhaiyl.xlxl</code>。接下来按 ${link('quickstart', '十分钟跑通计数器')} 完成第一次仿真；需要完整厂商工程请阅读 ${link('project', '创建与接入工程')}。</p>`),
   ]),
 
   article('quickstart', 'start', '十分钟跑通计数器', '用一个可下载的小工程，完成编辑、检查、Icarus 仿真和波形观察。', 10, '入门', ['快速开始', '快速上手', '示例', 'Icarus'], [
-    section('download', '下载并打开示例', `<p>先完成 ${link('install', 'XLXL 安装')}，再下载 <a href="./assets/xlxl-counter-demo.zip" download>计数器示例工程 ZIP</a>，解压到本地目录。用 VS Code 打开解压后包含 <code>.xlxl</code>、<code>rtl</code> 和 <code>sim</code> 的工程文件夹。</p>${code('Text', `counter-demo/
-  .xlxl/project.json
-  rtl/counter.v
-  sim/tb_counter.v`)}<p>设计模块为 <code>counter</code>，仿真顶层为 <code>tb_counter</code>。示例使用 8 位参数 <code>WIDTH=8</code>，端口为 <code>clk</code>、低有效复位 <code>rst_n</code>、<code>enable</code> 和输出 <code>count</code>。</p>`),
-    section('tools', '配置 Icarus 并检查工程', `<ol><li>安装 Icarus Verilog，确保包含编译器 <code>iverilog</code> 和运行器 <code>vvp</code>。</li><li>在 XLXL → Toolchain 点击“配置工具路径”，选择 Icarus iverilog，再选择实际可执行文件或安装目录。</li><li>执行 <strong>XLXL: Select Syntax Checker</strong>，选择 Icarus Verilog。</li><li>执行 <strong>XLXL: Check HDL Project</strong>，在 Problems 和 XLXL 输出频道查看结果。</li></ol><p>预期结果：源码能完成编译检查。工具没有检测到时，先解决路径问题，详见 ${link('toolchains', '工具链配置')}。</p>`),
-    section('tops', '确认两种顶层', `<p>打开 <code>.xlxl/project.json</code>，核对设计顶层和仿真顶层：</p>${code('JSON', projectExample)}<p>也可分别运行 <strong>XLXL: Set Top Module</strong> 选择 <code>counter</code>，运行 <strong>XLXL: Set Simulation Top Module</strong> 选择 <code>tb_counter</code>。前者用于设计层次和综合，后者用于仿真；选择 Testbench 不会改变设计顶层。</p>`),
-    section('simulate', '编译运行并打开 VCD', `<ol><li>保存工程和 HDL 文件。</li><li>执行 <strong>XLXL: Simulate Project with Icarus</strong>。</li><li>在 <strong>XLXL Simulation</strong> 输出频道确认编译和运行完成。</li><li>成功后自动打开本次新建或更新的 <code>wave.vcd</code>；如关闭了自动打开，可执行 <strong>XLXL: Open VCD Waveform</strong> 手动选择。</li></ol><p>示例 Testbench 使用 10 ns 时钟周期，包含波形转储和有限时长结束。仿真不依赖 FPGA 板卡或厂商工程。</p>${note('如需在终端单独验证工具，可从工程根目录运行以下命令；XLXL 自身使用独立的内部仿真目录。')}${code('PowerShell', 'iverilog -g2012 -s tb_counter -o counter-demo.vvp rtl/counter.v sim/tb_counter.v\nvvp counter-demo.vvp')}`),
+    section('download', '下载并打开精简练习包', `<p>先完成 ${link('install', 'XLXL 安装')}，再下载 <a href="./assets/xlxl-counter-demo.zip" download>计数器示例工程 ZIP</a>。这是<strong>精简 Icarus 练习包，不是完整厂商工程目录</strong>；无需运行创建厂商工程向导。解压后，用 VS Code 打开内层 <code>xlxl-counter-demo</code> 文件夹：</p>${code('Text', `xlxl-counter-demo/
+├─ README.md
+├─ .xlxl/
+│  └─ project.json
+├─ rtl/
+│  └─ counter.v
+└─ sim/
+   └─ tb_counter.v`)}<p>完整厂商工程还包含 prj、constraints、rvl、doc、fw、include 等目录，见 ${link('project', '插件生成的完整目录')}。设计模块为 <code>counter</code>，仿真顶层为 <code>tb_counter</code>；8 位参数 <code>WIDTH=8</code>，端口为 clk、低有效 rst_n、enable 和 count。</p>`),
+    section('tools', '配置 Icarus 并检查工程', `<ol><li>安装 Icarus Verilog，确保包含编译器 <code>iverilog</code> 和运行器 <code>vvp</code>。</li><li>在 XLXL → Toolchain 点击“配置工具路径”，选择 Icarus iverilog，按向导依次选择操作、用户或工作区设置，再选择实际可执行文件或安装目录。</li><li>执行 <strong>XLXL: Select Syntax Checker</strong>，选择 Icarus Verilog。</li><li>执行 <strong>XLXL: Check HDL Project</strong>，在 Problems 和 XLXL 输出频道查看结果。</li></ol><p>预期结果：源码能完成编译检查。工具没有检测到时，先解决路径问题，详见 ${link('toolchains', '工具链配置')}。</p>`),
+    section('tops', '确认练习包已有的配置', `<p>练习包已带有以下 <code>.xlxl/project.json</code>，通常无需修改或重新创建。这里只核对它与包内文件一致，不要将它覆盖到已有厂商工程中：</p>${code('JSON', projectExample)}<p>也可运行 <strong>XLXL: Set Top Module</strong> 核对 counter，运行 <strong>XLXL: Set Simulation Top Module</strong> 核对 tb_counter。两种顶层独立；选择 Testbench 不会改变设计顶层。此练习包未关联 FPGA 厂商工程，不能直接执行厂商同步或位流构建。</p>`),
+    section('simulate', '编译运行并打开 VCD', `<ol><li>保存工程和 HDL 文件。</li><li>执行 <strong>XLXL: Simulate Project with Icarus</strong>。</li><li>在 <strong>XLXL Simulation</strong> 输出频道确认编译和运行完成。</li><li>成功后自动打开本次新建或更新的 <code>wave.vcd</code>；如关闭了自动打开，可执行 <strong>XLXL: Open VCD Waveform</strong> 手动选择。</li></ol><p>示例 Testbench 使用 10 ns 时钟周期，包含波形转储和有限时长结束。仿真不依赖 FPGA 板卡或厂商工程。</p>${note('以下命令在工程根目录运行。插件将 .vvp 与运行记录放在 <code>.xlxl/sim/&lt;运行ID&gt;/</code>，但仿真进程的工作目录是工程根目录，示例 wave.vcd 也写在根目录。')}${code('PowerShell', 'iverilog -g2012 -s tb_counter -o counter-demo.vvp rtl/counter.v sim/tb_counter.v\nvvp counter-demo.vvp')}`),
     section('observe', '观察波形与修改代码', `<p>在波形中搜索并选择 <code>clk</code>、<code>rst_n</code>、<code>enable</code> 和 <code>count</code>。将 count 切换为无符号十进制；拖选一段时间放大，使用 A/B 光标读取边沿间隔。</p><p>预期行为：复位有效时计数清零；复位释放后，enable 有效的时钟上升沿推动计数递增，enable 无效时保持。时钟相邻同向边沿相隔 10 ns。具体激励区间以示例 Testbench 源码为准。</p><p>修改激励、保存、重新仿真，比较结果。继续阅读 ${link('waveform', '波形查看器')}，或在 count 信号上右键打开 ${link('signal-tracing', '跨层信号追踪')}。</p>`),
   ]),
 
   article('workspace', 'start', '认识 XLXL 工作区', '理解三个主要视图、源码分类与工作区根目录，找到每项操作的入口。', 5, '入门', ['界面', 'Project', 'Modules'], [
     section('views', '从左侧栏开始', `<p>打开 HDL 文件后点击 XLXL 活动栏图标。<strong>Project</strong> 展示工程配置和分类文件；<strong>Modules</strong> 展示模块层次；<strong>Toolchain</strong> 展示工具检测结果与常用入口。信号追踪结果显示在独立的“信号追踪”视图。</p><p>可从命令面板输入 <code>XLXL</code> 找到大多数功能。模块工具还可从 Modules 节点右键或 HDL 编辑器右键进入。</p>`),
-    section('project-tree', '读懂 Project 分类', `${table(['分类', '用途'], [['RTL Sources', '设计源码，对应 sources'], ['IP Cores', 'IP 源码，对应 ipSources'], ['Simulation', 'Testbench 等仿真文件，对应 simulationSources'], ['Firmware', '固件/构建产物，对应 firmwareSources'], ['Constraints', '引脚与时序约束，对应 constraints'], ['Online Debug (RVL)', '调试文件分组，对应 debugFiles'], ['Project Scripts', '厂商脚本，对应 scripts']])}<p>顶部工程项显示器件、设计顶层、仿真顶层及所选厂商；已关联原生工程时还会显示“厂商工程”入口。单击分类下的文件会打开该文件。</p>${note('Online Debug (RVL) 是文件管理分组。当前 XLXL 没有在这里提供板卡连接、JTAG 下载或片上信号采集功能。')}`),
-    section('modules-tools', '查看层次和工具状态', `<p>Modules 有设计顶层时从该模块开始展示；没有明确顶层时，优先显示未被其他模块例化的候选根。实例使用“实例名: 模块名”展示，找不到定义或出现循环时会给出标记。点击节点可跳转源码。</p><p>Toolchain 中的固定入口包括“使用教程”“打开 XLXL 设置”“配置工具路径”“格式化设置（缩进 / 行宽 / 对齐）”“查看最近构建报告”和“分析已有厂商报告”。点击“使用教程”或 Project 标题栏的书本图标可打开教程网站；命令面板中的同一入口为 <strong>XLXL：使用教程</strong>（<code>xlxl.openTutorial</code>）。编辑器右下方的语法工具状态可点击切换检查器。</p><p>修改文件范围后，可执行 <strong>XLXL: Refresh Project</strong> 刷新。索引为空先检查路径规则，而不是重新创建已有工程。</p>`),
-    section('roots', '根目录与缓存的位置', `<p>所有工程相对路径基于打开的工作区文件夹。多文件夹工作区目前使用<strong>第一个文件夹</strong>作为工程根目录；建议将正在开发的 HDL 工程单独打开。</p><p><code>.xlxl/project.json</code> 保存工程配置；<code>.xlxl/lint/</code>、<code>.xlxl/sim/</code>、<code>.xlxl/build/</code> 等为运行缓存和记录。厂商工程通常位于 <code>prj/</code>，文档位于 <code>doc/</code>，固件可归集到 <code>fw/</code>。</p><p>工作区切换后，旧模块图、报告与信号追踪操作可能失效，需要在当前工作区重新打开，避免把旧结果用于新源码。</p>`),
+    section('project-tree', '读懂 Project 分类与目录', `${table(['Project 分类', '新建工程默认目录', '配置字段'], [['RTL Sources', '<code>rtl/</code>；include 中的 HDL 头文件也进入源码范围', '<code>sources</code>'], ['IP Cores', '<code>ip/</code>', '<code>ipSources</code>'], ['Simulation', '<code>sim/</code>，存放 Testbench 源码', '<code>simulationSources</code>'], ['Firmware', '<code>fw/</code>', '<code>firmwareSources</code>'], ['Constraints', '<code>constraints/</code>', '<code>constraints</code>'], ['Online Debug (RVL)', '<code>rvl/</code>', '<code>debugFiles</code>'], ['Project Scripts', '<code>prj/</code> 中匹配的 Tcl/DO 脚本', '<code>scripts</code>']])}<p>这些是配置驱动的文件分类，不是资源管理器的目录镜像；已有配置可以指向其他目录。完整生成结构还包含 <code>doc/</code>、<code>include/</code> 和内部 <code>.xlxl/</code>，见 ${link('project', '工程目录结构')}。顶部显示器件、Top、Sim 和厂商，已关联时还显示“厂商工程”入口。</p>${note('Online Debug (RVL) 是文件管理分组。当前 XLXL 没有在这里提供板卡连接、JTAG 下载或片上信号采集功能。')}`),
+    section('modules-tools', '查看层次和工具状态', `<p>Modules 有设计顶层时从该模块开始展示；没有明确顶层时，优先显示未被其他模块例化的候选根。实例使用“实例名: 模块名”展示，找不到定义或出现循环时会给出标记。点击节点可跳转源码。</p><p>Toolchain 提供“打开 XLXL 设置”“配置工具路径”“格式化设置（缩进 / 行宽 / 对齐）”“查看最近构建报告”和“分析已有厂商报告”。<strong>1.1.2 新增</strong> Toolchain 的“使用教程”、Project 标题栏书本图标，以及命令 <strong>XLXL：使用教程</strong>；1.1.1 没有这些教程入口。编辑器右下方的语法工具状态可点击切换检查器。</p><p>新建完整厂商工程使用 Project 标题栏文件夹按钮“创建厂商工程”。只刷新现有工程用 <strong>XLXL: Refresh Project</strong>；索引为空先检查文件范围。</p>`),
+    section('roots', '区分源码目录、运行缓存和波形', `<p>所有工程相对路径基于打开的工作区文件夹；多文件夹工作区目前使用<strong>第一个文件夹</strong>。${link('project', '完整目录树与创建流程')}与已安装 1.1.1 的工程行为一致。</p>${table(['路径', '实际内容'], [['<code>sim/</code>', '用户的 Testbench 等仿真源码'], ['<code>.xlxl/sim/&lt;运行ID&gt;/</code>', 'simulation.vvp 与本次运行 result.json'], ['<code>wave.vcd</code>（根目录）', '使用 $dumpfile("wave.vcd") 时生成；相对路径以运行工作目录即工程根为准'], ['<code>.xlxl/lint/</code>', '外部检查缓存'], ['<code>.xlxl/build/</code>、<code>.xlxl/sync/</code>', '按操作生成的构建报告、同步日志和备份']])}<p>厂商工程位于 <code>prj/</code>；<code>doc/</code> 是模块文档目录，名称为单数。切换工作区后，旧图、报告和追踪需重新打开。</p>`),
   ]),
 
-  article('project', 'project-group', '配置与接入工程', '为已有 RTL 指定源码、IP、Testbench、包含目录和宏，分清设计与仿真顶层。', 8, '入门', ['project.json', '工程', '顶层'], [
-    section('existing', '接入已有 RTL', `<p>代码编辑无需先创建厂商工程。已有 HDL 工程可直接在工作区根目录新建 <code>.xlxl/project.json</code>，并按实际目录填写配置：</p>${code('JSON', projectExample)}<ol><li>确认 JSON 合法，数组中每项均为字符串。</li><li>保存文件，执行 <strong>XLXL: Refresh Project</strong>。</li><li>在 Project 检查源码分组，在 Modules 检查模块是否被发现。</li></ol><p>预期结果：RTL 与 Testbench 分别进入设计和仿真范围，头文件可由包含路径找到。</p>`),
-    section('patterns', '源码范围和头文件', `<p><code>sources</code> 是设计文件 glob，<code>ipSources</code> 是独立 IP 范围，<code>simulationSources</code> 仅额外用于仿真。综合使用设计和 IP 文件；头文件通过 includePaths 参与编译。</p>${code('JSON', `{
-  "sources": ["rtl/**/*.{v,vh,sv,svh}"],
-  "includePaths": ["include", "rtl", "ip"],
-  "defines": ["ENABLE_FEATURE", "WIDTH=8"]
-}`)}<p>路径基于工作区根目录；每个宏独占一项。<code>sources: []</code> 表示不扫描设计源码，IP 和仿真范围仍各自生效。若文件后缀大小写混用，可使用 <code>rtl/**/*.{[vV],[vV][hH],[sS][vV],[sS][vV][hH]}</code>。</p>`),
-    section('top-modules', '分别设置设计和仿真顶层', `<ol><li>保存 project.json 和相关 HDL 文件。</li><li>执行 <strong>XLXL: Set Top Module</strong>，选择待综合设计的根模块。</li><li>执行 <strong>XLXL: Set Simulation Top Module</strong>，选择 Testbench 模块。</li><li>检查 Project 顶部的 Top 与 Sim 显示。</li></ol><p>配置项分别为 <code>topModule</code> 与 <code>simulationTopModule</code>。转义名称填写名称本身：<code>module \\tb.x ;</code> 对应 <code>"simulationTopModule": "tb.x"</code>。</p>${note('修改工程或语义设置后，等待刷新完成再重命名。顶层、同步和构建会检查配置变化；不要保持未保存的配置同时执行这些操作。')}`),
-    section('native', '需要厂商工程时使用向导', `<p>运行 <strong>XLXL: Initialize Project</strong>，按向导选择 Lattice Diamond、安路 TangDynasty 或紫光同创 PDS，填写器件和工程参数。PDS 还需实际系列、封装和速度等级；Diamond 按设计选择 LSE 或 Synplify Pro。</p><p>向导生成或更新 <code>.xlxl/project.json</code>，调用本机厂商工具创建并验证 <code>prj/</code> 中的工程。已存在配置时会提示重新生成，已有厂商工程会保留。创建不是使用编辑器的前提。</p><p>后续修改源码范围、包含目录或宏后，通过 ${link('vendor', '厂商工程同步')} 预览并应用变更。</p>`),
-    section('fallback', '没有配置时会发生什么', `<p>未配置工程时，基础模块树按 <code>xlxl.sourceGlobs</code> 扫描，默认仅包含 <code>rtl/</code> 和 <code>ip/</code> 的 HDL；Slang 会扫描工作区 HDL 文件。两套范围因此可能不同。</p><p>如果基础模块树为空，但语义导航能工作，先建立准确的 project.json 或调整 sourceGlobs。配置无效时 Project 会显示错误提示，点击提示打开文件，检查必需的 <code>sources</code> 及所有字段类型。</p>`),
+  article('project', 'project-group', '配置与接入工程', '从插件创建向导开始，核对真实工程目录，再按需调整已有源码范围。', 9, '入门', ['project.json', '工程', '目录结构', '顶层'], [
+    section('existing', '从 Project 创建厂商工程', `<p>需要完整 FPGA 工程时，先用 VS Code 打开工程文件夹，安装并配置所用的 Diamond、TD 或 PDS 及许可证。然后点击 <strong>XLXL → Project 标题栏的文件夹按钮“创建厂商工程”</strong>，或执行 <strong>XLXL: Initialize Project</strong>。不需要先手写 project.json。</p><p>已有 RTL 可先放在默认 <code>rtl/</code>、IP 放在 <code>ip/</code>；向导按实际匹配的文件导入，不会搬迁文件。已有有效配置时保留其中的源码规则。向导没有目录布局选择器，也不会自动生成设计源码或 Testbench。</p><p>如果只是练习编辑和 Icarus 仿真，可以直接打开 ${link('quickstart', '已带配置的精简练习包')}；该包不代表完整厂商工程结构。</p>`),
+    section('native', '按实际向导顺序填写', `<ol><li>在“创建厂商工程”中选择 <strong>Lattice</strong>、<strong>安路 Anlogic</strong> 或 <strong>紫光同创 Pango</strong>。</li><li>填写“器件型号”，再填写“工程名称”；名称不会改变工作区文件夹。</li><li>Diamond 填写“Diamond Implementation 名称”，默认 <code>impl1</code>；PDS 依次填写“器件系列 Family”“封装 Package”“速度等级 Speed Grade”。</li><li>插件检查本机工具；Diamond 随后选择“Diamond 综合器”：Lattice LSE（默认）或 Synplify Pro。含 SystemVerilog 设计时只提供 Synplify Pro。</li><li>扫描到设计源码时填写“设置工程顶层模块”；没有源码的空工程跳过此步。</li><li>等待调用厂商工具创建并验证。成功后才写入 <code>.xlxl/project.json</code>，并显示原生工程位置。</li></ol><p>已有配置时先出现“重新生成 / 取消”提示；已有同名厂商文件或实现目录会受到保护。器件、许可证或工具不满足要求时，不能把向导填写完成视为工程已创建。</p>`),
+    section('directories', '核对插件生成的完整目录', `<p>以下是向导创建阶段生成的目录及成功后写入的配置，工程创建行为在 1.1.1 与 1.1.2 中相同：</p>${code('Text', generatedProjectTree)}<p><code>rtl/</code> 是设计源码，<code>ip/</code> 是 IP，<code>sim/</code> 是 Testbench 源码；<code>constraints/</code> 放约束，<code>rvl/</code> 放 RVL 文件，<code>fw/</code> 放固件，<code>include/</code> 放头文件，<code>doc/</code> 放模块文档。目录创建不等于自动生成这些文件。</p><p>厂商主工程分别为 <code>prj/&lt;工程名&gt;.ldf</code>、<code>prj/&lt;工程名&gt;.al</code>、<code>prj/&lt;工程名&gt;.pds</code>。实现目录及报告由具体工具产生，不要求三家布局一致；Diamond 默认实现常为 prj/impl1。</p><p><code>.xlxl/sim/</code> 是内部编译缓存，与用户 <code>sim/</code> 不同。同步、构建等缓存按操作另行生成；<code>$dumpfile("wave.vcd")</code> 的相对路径会写到工程根目录。</p>`),
+    section('top-modules', '创建后分别设置两种顶层', `<ol><li>工程创建成功后添加或保存设计与 Testbench。</li><li>执行 <strong>XLXL: Set Top Module</strong> 选择设计根模块。</li><li>执行 <strong>XLXL: Set Simulation Top Module</strong> 选择 Testbench。</li><li>在 Project 顶部核对 Top 与 Sim；修改厂商相关输入后执行 ${link('vendor', '同步预览')}。</li></ol><p>这两个命令要求已有有效 XLXL 配置。创建向导中的“设置工程顶层模块”是创建过程的一步，不要在空白工程中先运行独立设置命令。配置项分别为 topModule 与 simulationTopModule，后者不会更改前者。</p><p>修改配置后先保存，等待刷新完成再继续操作。转义模块名在配置中填写名称本身，例如 <code>tb.x</code>。</p>`),
+    section('patterns', '进阶可选：仅源码配置与非默认目录', `<p>只做编辑、检查和 Icarus 仿真时，可以手工建立有效配置；这不会创建上面的目录或厂商工程。下面是练习包的完整最小配置，适合新的源码练习目录，<strong>不要用它覆盖向导已生成的厂商配置</strong>：</p>${code('JSON', projectExample)}<p>已有配置请只修改需要的字段，保留 device、toolchain、constraints 等。sources、ipSources、simulationSources 各自控制设计、IP 和仿真范围，路径基于工作区；includePaths 填真实目录，defines 每项一个宏。<code>sources: []</code> 不扫描设计源码，其他范围仍独立生效。</p>${note('没有 toolchain 的源码配置不能直接进行厂商同步或构建。需要厂商流程时，使用创建向导，或在已有有效配置上配置并关联真实厂商工程。')}`),
+    section('fallback', '已有文件与配置如何被识别', `<p>向导使用文件范围扫描现有文件并把路径导入厂商工程，不会将任意目录中的源码自动移动到 rtl/。已有项目采用其他布局时，应在现有配置中调整匹配规则，再保存、刷新和同步。</p><p>没有配置时，基础模块树按 <code>xlxl.sourceGlobs</code> 扫描，默认 rtl/ 与 ip/；Slang 扫描工作区 HDL，范围可能不同。配置无效时 Project 会给出提示；检查非空 name、sources 字符串数组和其他字段类型。代码编辑无需先创建厂商工程。</p>`),
   ]),
 
   article('toolchains', 'project-group', '配置工具链', '用统一路径向导连接编译器、运行器、格式化器和 FPGA 工具。', 7, '入门', ['工具路径', 'Icarus', 'Slang'], [
     section('roles', '按任务选择工具', `${table(['任务', '使用的工具'], [['语义补全、引用、重命名、实时诊断', 'Slang，Windows x64 内置'], ['文档与选区格式化', 'Verible，Windows x64 内置'], ['外部语法检查', 'Vivado / ModelSim / QuestaSim / Icarus 四选一'], ['Testbench 编译和运行', 'Icarus iverilog + vvp'], ['创建、同步和构建 FPGA 工程', 'Diamond / TangDynasty / PDS 本机软件'], ['驱动源与 X 态进阶查询', '可选 wave-mcp 后端，另行安装']])}<p>语法检查器不决定仿真工具：即使选择 Vivado 检查，XLXL 的快速仿真仍使用 Icarus。</p>`),
-    section('path-wizard', '使用路径配置向导', `<ol><li>在 Toolchain 点击<strong>配置工具路径</strong>，或执行 <strong>XLXL: Configure Tool Path</strong>。</li><li>选择工具，例如 Icarus iverilog。</li><li>选择可执行文件、目录或手动输入路径。</li><li>选择保存到用户设置或工作区设置。工作区值会覆盖用户值。</li><li>配置后运行 <strong>XLXL: Detect Toolchains</strong> 刷新状态。</li></ol><p>向导会验证所选路径；无效时不写入设置。Verible 自定义路径要求绝对可执行文件路径；Slang 可使用基于工作区的相对可执行文件路径。</p>`),
+    section('path-wizard', '使用路径配置向导', `<ol><li>在 Toolchain 点击<strong>配置工具路径</strong>，或执行 <strong>XLXL: Configure Tool Path</strong>。</li><li>选择工具，例如 Icarus iverilog。</li><li>选择操作：“选择可执行文件”“选择目录”或“手动输入路径”；目录操作仅在工具支持时出现。</li><li>先选择保存到“用户设置”或“工作区设置”，工作区值会覆盖用户值。</li><li>随后才会打开文件/目录选择器或路径输入框，选择实际位置。</li><li>配置完成后可运行 <strong>XLXL: Detect Toolchains</strong> 刷新状态。</li></ol><p>向导验证路径后才写设置；无效时不保存。Verible 自定义路径要求绝对可执行文件路径；Slang 可使用基于工作区的相对路径。恢复自动检测也在操作列表中选择。</p>`),
     section('settings-map', '常用路径设置', `${table(['工具', '设置'], [['Vivado xvlog', '<code>xlxl.xvlogPath</code>'], ['ModelSim / QuestaSim', '<code>xlxl.modelsimPath</code> / <code>xlxl.questaPath</code>'], ['Icarus 编译器 / 运行器', '<code>xlxl.iverilogPath</code> / <code>xlxl.vvpPath</code>'], ['Diamond / TD / PDS', '<code>xlxl.diamondPath</code> / <code>xlxl.anlogicPath</code> / <code>xlxl.pdsPath</code>'], ['Slang / Verible', '<code>xlxl.semantic.serverPath</code> / <code>xlxl.formatter.path</code>']])}<p>多数厂商工具可填写可执行文件、bin 目录或安装根目录。<code>xlxl.toolSearchPaths</code> 可加入安装目录或其父目录，供自动检测、检查、创建和构建使用，无需修改系统 PATH。</p>`),
     section('icarus', '确认 Icarus 的两个程序', `<p>Icarus 使用 <code>iverilog</code> 编译，用 <code>vvp</code> 执行编译产物。vvpPath 留空时，插件优先使用检测到的 iverilog 同目录下的 vvp。</p>${code('JSON', `{
   "xlxl.iverilogPath": "C:/iverilog/bin/iverilog.exe",
@@ -564,7 +581,7 @@ export const articles = [
 
   article('editing', 'editor', '补全、导航与重命名', '从模块例化到跨文件语义导航，保持接口连接和符号修改清晰可查。', 7, '入门', ['补全', '导航', '重命名'], [
     section('language', '确认文件语言', `<p><code>.v/.vh</code> 使用 Verilog 解析，<code>.sv/.svh</code> 使用 SystemVerilog 解析。需要 SystemVerilog 语法时使用对应后缀；未保存草稿可点击右下角语言模式，选择 Verilog 或 SystemVerilog。</p><p>基础模块索引提供模块导航、例化与端口相关功能；Slang 提供完整宏展开、跨文件语义补全、悬停、引用和重命名。语义服务不可用时，基础模块导航与端口提示仍可使用。</p>`),
-    section('instantiate', '插入例化并补齐连接', `<ol><li>把光标放在模块内部或受支持的 generate 结构中。</li><li>输入模块名前缀，按 <code>Ctrl+Space</code> 选择例化模板。</li><li>在端口连接列表中输入 <code>.</code>，选择命名端口。</li><li>在 <code>#(...)</code> 中选择可覆盖参数，再填写实际值和信号表达式。</li></ol>${code('Verilog', `counter #(
+    section('instantiate', '插入例化并填写连接', `<ol><li>把光标放在模块内部或受支持的 generate 结构中。</li><li>输入模块名前缀，按 <code>Ctrl+Space</code> 选择例化模板；模板已包含命名端口连接。</li><li>按 <code>Tab</code> 在实例名和连接表达式的占位位置间切换，填写实际信号。</li><li>普通例化模板不会自动加入参数覆盖。需要覆盖时，自行写入 <code>#(.</code> 等参数连接上下文，再调用参数补全。</li></ol><p>对于已有但尚未写完整的实例，在连接列表输入 <code>.</code> 可补全缺少的命名端口；这与插入已包含端口的整块例化模板是两个入口。填写后的例子：</p>${code('Verilog', `counter #(
     .WIDTH(8)
 ) u_counter (
     .clk(clk),
@@ -596,14 +613,9 @@ export const articles = [
   ]),
 
   article('testbench', 'modules', '生成 Testbench 骨架', '从已解析的模块创建可运行起点，再补充真实激励与检查。', 7, '入门', ['Testbench', '时钟', '复位'], [
-    section('entry', '选择待测模块', `<p>打开待测模块，保存相关源码与工程配置。执行 <strong>XLXL: Create Testbench</strong>，或在 Modules 中右键已解析的模块节点。也可在 HDL 编辑器右键进入；同名模块会按源文件区分。</p><p>向导读取模块接口和参数，生成新的 Testbench，不会更改原设计。先核对选择的模块及源文件，避免为同名的另一个定义生成骨架。</p>`),
-    section('wizard', '填写语言、激励和时长', `<ol><li>选择 <code>.v</code> 或 <code>.sv</code> 语言及新文件路径，例如 <code>sim/tb_counter.v</code>。</li><li>按需要明确选择时钟输入和复位输入；只有可确认的标量输入可用于这些激励。</li><li>填写时钟、复位及仿真时长相关参数。</li><li>在预览中检查端口、参数、激励、VCD 转储和结束语句。</li><li>确认保存到尚不存在的新文件。</li></ol><p>预期结果：普通输入有初始化，输出用于观察，inout 保持无驱动；仅明确选中的时钟/复位有周期或复位激励。</p>`),
-    section('register', '加入仿真范围并设为顶层', `<p>将生成文件放入 <code>simulationSources</code> 能匹配的目录，或在保存后的后续步骤将其加入仿真范围，再设置仿真顶层。例如：</p>${code('JSON', `{
-  "topModule": "counter",
-  "simulationTopModule": "tb_counter",
-  "sources": ["rtl/**/*.{v,vh,sv,svh}"],
-  "simulationSources": ["sim/**/*.{v,vh,sv,svh}"]
-}`)}<p>设计顶层保持原值。保存后执行 <strong>XLXL: Simulate Project with Icarus</strong>；如果手工改了生成模块名，仿真顶层也要同步更新。</p>`),
+    section('entry', '选择待测模块', `<p>保存源码与工程配置。执行 <strong>XLXL: Create Testbench</strong>，或从 HDL 编辑器右键进入，会打开<strong>选择 DUT 模块</strong>列表；按模块名及源文件选择实际定义。仅把光标放进模块，并不会跳过这个选择。</p><p>从 Modules 中右键一个已解析模块节点时，节点会直接提供该定义。向导读取接口和参数，不会更改 DUT；先核对源文件，避免选择同名的其他模块。</p>`),
+    section('wizard', '按向导顺序生成并保存', `<ol><li>填写“TB 模块名称”，默认以 <code>tb_</code> 开头，且必须与 DUT 名不同。</li><li>在“输出语言”选择 SystemVerilog (.sv) 或 Verilog (.v)。</li><li>在“Testbench 输出路径”选择尚不存在的新文件，默认位于 sim/。</li><li>依次“选择时钟”“选择复位”；每项都可以选无时钟/无复位，只有明确选择的标量输入会被驱动。</li><li>选了复位时，填写“复位极性”和“复位保持时间 (ns)”；选了时钟时，再填写“时钟周期 (ns)”。</li><li>填写“仿真时长 (ns)”，检查打开的代码预览，然后在确认框点击<strong>保存新文件</strong>。</li></ol><p>普通输入有初始化，输出用于观察，inout 保持无驱动。预览不等于已保存；已有同名文件不会被覆盖。生成骨架的 VCD 文件名以 TB 安全模块名命名，例如 tb_counter.vcd。</p>`),
+    section('register', '点击通知加入仿真并设为顶层', `<p>保存成功后，通知提供<strong>加入仿真并设为顶层</strong>和“打开文件”。已有有效且未变化的 XLXL 配置时，优先点击前者：插件更新 simulationSources 和 simulationTopModule，并保留设计顶层。</p><p>如果只点“打开文件”或关闭通知，文件已经保存，但还需核对它是否落在仿真范围中，再运行 <strong>XLXL: Set Simulation Top Module</strong> 选择新 TB。工作区外的文件需要手工配置；缺少工程配置时先完成 ${link('project', '工程创建或可选源码配置')}。</p><p>这里无需整份替换 project.json；保留已有厂商字段。保存并完成配置后，执行 <strong>XLXL: Simulate Project with Icarus</strong>。</p>`),
     section('stimulus', '补充真实激励与预期结果', `<p>生成器提供可运行骨架，不会自动编写协议事务、边界条件、参考模型或结果断言。以计数器为例，可以追加 enable 开关、再次复位和溢出观察，再用断言或明确的条件检查结果。</p>${code('Verilog', `// 示例片段：放在适当的激励 initial 中，并按已有时钟安排调整。
 enable = 1'b0;
 repeat (3) @(negedge clk);
@@ -614,14 +626,14 @@ enable = 1'b0;`)}<p>检查 count 是否只在允许的时钟边沿更新。使�
   ]),
 
   article('module-docs', 'modules', '生成模块接口文档', '预览参数、端口、接口图和例化样例，导出 Markdown 与本地 SVG。', 5, '入门', ['文档', 'Markdown', 'SVG'], [
-    section('preview', '预览当前模块', `<ol><li>保存模块与工程配置。</li><li>在 Modules 节点右键，选择 <strong>XLXL: Preview Module Documentation</strong>；或从命令面板运行并选择模块。</li><li>核对参数、端口、原始表达式、接口图和例化样例。</li></ol><p>模块工具也可从 HDL 编辑器右键进入。同名模块按文件区分；对外分享前先确认文档对应的实际定义。</p>`),
+    section('preview', '选择模块并预览', `<ol><li>保存模块与工程配置。</li><li>在 Modules 节点右键选择 <strong>XLXL: Preview Module Documentation</strong>，节点直接提供模块定义。</li><li>从命令面板或 HDL 编辑器右键运行时，会先打开<strong>选择 DUT 模块</strong>列表；按源文件核对同名模块。</li><li>核对参数、端口、原始表达式、接口图和例化样例。</li></ol><p>预览页提供“模块源码”与<strong>导出 Markdown 和 SVG</strong>按钮，可从当前快照继续查看或导出。</p>`),
     section('read', '理解原始声明与待补充项', `<p>接口文档保留源码中的参数、类型和位宽表达式，不把未计算的表达式冒充具体数值。没有可靠描述的端口或参数会显示“待补充”，不会根据 clk、data 等名称自动推测设计功能。</p><p>依赖包、宏或调用作用域的接口，例化样例会标明所需环境。有限制的模块仍可保留原始声明和说明；文档成功导出不代表 Testbench 生成或仿真一定受支持。</p>`),
-    section('export', '导出两个关联文件', `<ol><li>执行 <strong>XLXL: Export Module Documentation</strong>。</li><li>选择目标路径，默认位于 <code>doc/&lt;安全模块名&gt;.md</code>。</li><li>确认同目录的 <code>.interface.svg</code> 目标也不存在。</li><li>导出后同时保留 Markdown 与 SVG，并核对图片引用。</li></ol><p>预期结果：得到可版本管理的接口说明和本地接口图，便于设计评审或项目交接。已有目标不会被覆盖，需要另存名称或自行处理旧文件。</p>`),
+    section('export', '导出两个关联文件', `<ol><li>点击预览页的<strong>导出 Markdown 和 SVG</strong>；或执行 <strong>XLXL: Export Module Documentation</strong>，再按“选择 DUT 模块”选择定义。</li><li>选择目标路径，默认位于 <code>doc/&lt;安全模块名&gt;.md</code>。</li><li>确认同目录的 <code>.interface.svg</code> 目标也不存在。</li><li>导出后同时保留 Markdown 与 SVG，并核对图片引用。</li></ol><p>预期结果：得到可版本管理的接口说明和本地接口图。已有目标不会被覆盖，需要另选名称；从 Modules 节点运行可直接使用该节点定义。</p>`),
     section('freshness', '更新文档与安全边界', `<p>接口文档是当前源码的快照。修改端口、参数、头文件或配置后，应重新预览并另存更新版本。切换工作区后旧预览操作会失效。</p><p>导出是有保护的双文件发布，不是跨文件原子事务；任一发布失败会尝试仅清理本次创建且未被用户改动的文件。不支持硬链接的文件系统会安全失败。若遇到导出错误，先检查目标目录和是否已有同名文件。</p>`),
   ]),
 
   article('module-graph', 'modules', '探索 RTL 模块连接图', '查看一层端口、子实例与连接表达式，在图与源码之间切换。', 6, '进阶', ['连接图', '层次', '导航'], [
-    section('open', '打开一个模块的连接图', `<ol><li>在 Modules 中选择已解析模块，右键运行 <strong>XLXL: Show RTL Module Graph</strong>。</li><li>也可在 HDL 编辑器右键进入，或通过命令面板选择模块。</li><li>核对根模块名称和端口，在图中找到直接子实例。</li></ol><p>图显示当前模块的一层直接 RTL 连接，包括端口、实例和实际连接表达式。适合快速理解接口关系和查找连接出处。</p>`),
+    section('open', '选择模块并打开连接图', `<ol><li>在 Modules 中选择已解析模块，右键运行 <strong>XLXL: Show RTL Module Graph</strong>，节点直接提供定义。</li><li>从 HDL 编辑器右键或命令面板运行时，先在<strong>选择 DUT 模块</strong>列表中按模块名和源文件选择定义。</li><li>核对根模块名称和端口，在图中找到直接子实例。</li></ol><p>图显示所选模块的一层直接 RTL 连接，包括端口、实例和实际连接表达式，适合查找连接出处。</p>`),
     section('navigate', '搜索、缩放与下钻', `<p>用图中的搜索找到信号、实例或表达式，再通过缩放和平移检查局部。<strong>双击实例</strong>或选中实例后按 Enter 可以进入子模块，返回按钮回到上层。</p><p>实例内的“↗ 源码”按钮跳到声明；其他节点和连线也可点击定位相关位置。源码在旁侧打开，图形保留焦点，便于连续沿连接阅读。</p><p>预期结果：从顶层看到子实例接口，再下钻子模块，能回到上层并定位每条受支持连接的源码。</p>`),
     section('expressions', '读懂未知和复杂连接', `<p>复杂表达式以完整表达式节点显示，不擅自拆成确定的硬件。未知模块、同名定义歧义、通配连接和未解析连接会明确标记。遇到这些标记，先跳到源码和实际定义核对上下文。</p><p>如果需要沿一个具体实例中的信号继续追上下游，使用 ${link('signal-tracing', '跨层信号追踪')}。连接图帮助看结构，追踪帮助看一条信号路径。</p>`),
     section('boundary', '它展示的范围', `${note('连接图不执行综合、generate/参数展开、宏分支选择、位宽求值或协议推断。不要将其视为综合后的网表或时序图。', true)}<p>图按同一份捕获源码解析模块并保存定位位置。修改源码、头文件或工程后，需要重新打开图；切换工作区后旧图中的操作失效，即使返回原目录也需重开。</p><p>若看不到预期实例，检查模块索引、源码范围和未解析语法，再从源码验证实际连接。</p>`),
@@ -644,7 +656,7 @@ end`)}<p>时序追踪支持 always_ff 或边沿触发 always 中的整信号非�
   ]),
 
   article('simulation', 'simulation-group', '用 Icarus 运行仿真', '为 Testbench 设置独立顶层，编译、运行并确认本次生成的波形。', 8, '入门', ['Icarus', '仿真', 'VCD'], [
-    section('prepare', '准备编译和运行输入', `<ol><li>安装 Icarus，配置 <code>xlxl.iverilogPath</code>，必要时同时配置 <code>xlxl.vvpPath</code>。</li><li>在 project.json 中把设计、IP 和仿真文件放进对应范围，并填写 includePaths 与 defines。</li><li>运行 <strong>XLXL: Set Simulation Top Module</strong> 选择 Testbench。</li><li>保存工程配置和相关 HDL 文件。</li></ol><p>仿真额外使用 simulationSources。设计顶层和仿真顶层独立，仿真通常选择没有外部输入、能够自行产生激励的 Testbench。</p>`),
+    section('prepare', '准备编译和运行输入', `<ol><li>安装 Icarus，配置 <code>xlxl.iverilogPath</code>，必要时同时配置 <code>xlxl.vvpPath</code>。</li><li>在 project.json 中把设计、IP 和仿真文件放进对应范围，并填写 includePaths 与 defines。</li><li>保存工程配置和相关 HDL 文件。</li><li>运行 <strong>XLXL: Set Simulation Top Module</strong> 选择 Testbench。</li></ol><p>仿真额外使用 simulationSources。设计顶层和仿真顶层独立，仿真通常选择没有外部输入、能够自行产生激励的 Testbench。</p>`),
     section('dump', '加入波形转储与结束条件', `<p>在 Testbench 中加入以下代码，将 <code>tb_counter</code> 替换为真实模块名：</p>${code('Verilog', `initial begin
     $dumpfile("wave.vcd");
     $dumpvars(0, tb_counter);
@@ -655,7 +667,7 @@ initial begin
     #500;
     $finish;
 end`)}<p>另需为设计提供时钟、复位与输入激励。未执行 dump 语句不会产生预期波形；只有无限时钟且没有结束条件会一直运行到取消或超时。</p>`),
-    section('run', '运行并阅读日志', `<ol><li>执行 <strong>XLXL: Simulate Project with Icarus</strong>。</li><li>观察 <strong>XLXL Simulation</strong> 输出频道中的编译顶层、错误和运行输出。</li><li>编译成功后插件调用 vvp 运行；预期看到仿真完成。</li><li>成功且检测到本次新增或更新的 VCD 时，默认自动打开内置查看器。</li></ol><p>仿真使用 <code>.xlxl/sim/</code> 下独立运行产物。不要依赖上一轮的旧 VCD 判断本轮是否成功；插件自动打开也只选择本次生成或更新的波形。</p>`),
+    section('run', '运行并阅读日志', `<ol><li>执行 <strong>XLXL: Simulate Project with Icarus</strong>。</li><li>观察 <strong>XLXL Simulation</strong> 输出频道中的编译顶层、错误和运行输出。</li><li>编译成功后插件调用 vvp 运行；预期看到仿真完成。</li><li>成功且检测到本次新增或更新的 VCD 时，默认自动打开内置查看器。</li></ol><p>编译产物 <code>simulation.vvp</code> 和运行记录保存在 <code>.xlxl/sim/&lt;运行ID&gt;/</code>。编译与 vvp 的工作目录都是工程根目录，相对路径 <code>wave.vcd</code> 写在根目录。不要依赖上一轮的旧 VCD 判断本轮是否成功；插件自动打开也只选择本次生成或更新的波形。</p>`),
     section('control', '取消、超时与自动打开', `<p>进度提示支持取消，<code>xlxl.simulationTimeout</code> 控制单次编译或运行阶段最长时间，默认 120 秒；取消与超时会停止该次进程树。工程保存未完成时，本次操作会停止。</p>${code('JSON', `{
   "xlxl.simulationTimeout": 120,
   "xlxl.openWaveformAfterSimulation": true,
@@ -666,36 +678,36 @@ end`)}<p>另需为设计提供时钟、复位与输入激励。未执行 dump �
 
   article('waveform', 'simulation-group', '使用 VCD 波形查看器', '搜索信号、精确显示总线、组织分组，缩放与测量时间。', 8, '入门', ['波形', 'VCD', '双光标'], [
     section('open', '打开并选择信号', `<p>仿真成功后默认自动打开本轮生成的 VCD。也可执行 <strong>XLXL: Open VCD Waveform</strong>，选择工作区里的 VCD 文件。</p><ol><li>在“搜索信号”中输入完整路径或名称的一部分。</li><li>选择需要观察的信号；可用“选择搜索结果”，最多显示 64 路。</li><li>用“清空选择”重新开始，避免把无关信号都放进画布。</li></ol><p>查看器支持数字标量/向量、实数和事件信号。宽总线使用精确整数，X/Z 保留未知态，便于定位初始化和驱动问题。</p>`),
-    section('radix', '选择进制并组织分组', `<p>对总线可切换二进制、十六进制、无符号十进制和有符号十进制。检查符号位时选择有符号显示；观察计数或长度时使用无符号显示更直观。</p><p>通过拖动或上下按钮调整信号顺序，把同一接口的时钟、复位、控制和数据放在一起。可建立可折叠分组，保留总览并收起暂时不用的接口。</p><p>预期结果：能以适合数据含义的进制读值，同时保持跨模块信号的完整名称以辨认来源。</p>`),
-    section('zoom', '缩放、平移与双光标', `<ul><li>在画布拖选时间区间，放大关注范围。</li><li>滚轮围绕指针位置缩放。</li><li>按 Shift 拖动、中键拖动或使用平移滚轮移动视区。</li><li>使用适配全图或手动输入范围回到需要的时间段。</li></ul><p>A/B 双光标显示物理时间与绝对时间差。将两个光标放在相邻同向时钟边沿，可检查周期；放在请求与响应边沿上，可测量时间间隔。结合 Testbench 的 timescale 判断单位。</p>`),
+    section('radix', '选择进制并组织分组', `<p>对总线可切换二进制、十六进制、无符号十进制和有符号十进制。检查符号位时选择有符号显示；观察计数或长度时使用无符号显示更直观。</p><p>在<strong>新分组名称</strong>输入框填名称，点击<strong>添加分组</strong>，再用信号行中的分组选择将信号加入。分组可以折叠；通过拖动或上下按钮调整显示顺序，把时钟、复位、控制和数据放在一起。</p><p>预期结果：以适合数据含义的进制读值，同时保留完整信号名称辨认来源。</p>`),
+    section('zoom', '缩放、范围输入与 A/B 游标', `<ol><li>在“当前游标”中选择 <strong>A</strong>，点击画布设置 A；再切换为 <strong>B</strong>，点击设置 B。</li><li>读取两个游标的物理时间与绝对时间差；相邻同向时钟边沿可用于测周期。</li><li>在画布拖选区间放大，滚轮围绕指针缩放；Shift 拖动、中键拖动或平移滚轮移动视区。</li><li>点击<strong>显示全部时间</strong>返回全图，或在“起点”“终点”输入范围。</li></ol><p>起点/终点输入使用 VCD 的原始 <strong>ticks</strong>，不是直接输入 ns；请结合界面 timescale 换算。游标显示会给出物理时间，避免把原始计数与实际时间单位混淆。</p>`),
     section('layout', '保存并恢复布局', `<p>使用查看器“保存布局”导出 JSON，随后通过“恢复布局”恢复显示顺序、进制、分组、视区和光标。适合反复运行同一个 Testbench，或分享一组重点观察信号。</p><p>布局按完整信号名、位宽和类型匹配，不会直接沿用旧数组下标。缺失信号、重名歧义或超出显示上限会给出提示；timescale 变化时重置视区和光标，避免误用旧时间。布局 JSON 上限 1 MiB。</p>`),
     section('capacity', '容量和进阶分析', `${table(['项目', '内置上限'], [['VCD 大小', '16 MiB'], ['信号数量', '4096'], ['变化点', '200000'], ['同时显示', '64 路'], ['布局 JSON', '1 MiB']])}<p>内置查看器适合小型 VCD。FST 或更大波形请使用外部工具/后端。所选信号的驱动源与 X 态查询需要另行配置 ${link('wave-mcp', 'wave-mcp')} 并为同一波形建立会话；基础 VCD 查看无需该后端。</p>`),
   ]),
 
   article('vendor', 'build', 'FPGA 厂商工程与构建', '连接 Diamond、TangDynasty 或 PDS，创建、同步和生成位流。', 12, '进阶', ['Diamond', 'TD', 'PDS', '构建'], [
     section('prepare', '准备本机厂商环境', `<p>XLXL 支持 Lattice Diamond、安路 TangDynasty 和紫光同创 PDS/PDS Lite。先安装对应软件，确认实际器件、封装、速度等级及许可证，再按 ${link('toolchains', '工具链配置')} 设置路径。</p>${table(['工具', '路径', '许可证设置'], [['Diamond', '<code>xlxl.diamondPath</code>', '<code>xlxl.diamondLicensePath</code>'], ['TangDynasty', '<code>xlxl.anlogicPath</code>', '<code>xlxl.anlogicLicensePath</code>'], ['PDS / PDS Lite', '<code>xlxl.pdsPath</code>', '<code>xlxl.pdsLicensePath</code>']])}<p>许可证可填写文件或端口@服务器。Diamond/TD 留空继承环境；PDS 留空继承 PANGO_LICENSE_FILE 或查找安装目录附近唯一许可证。具体要求以安装的软件和实际授权为准。</p>`),
-    section('create', '创建或关联原生工程', `<ol><li>保存 project.json 与设计源码，设置设计顶层。</li><li>执行 <strong>XLXL: Initialize Project</strong>，选择厂商、器件和工程参数。</li><li>Diamond 根据源码选择 LSE 或 Synplify Pro；PDS 填写实际 family/package/speedgrade。</li><li>向导调用本机工具，在 <code>prj/</code> 创建并验证原生工程，再更新 XLXL 配置。</li></ol><p>已有 PDS 工程可运行 <strong>XLXL: Attach PDS Project</strong> 关联 <code>.pds</code>。<strong>XLXL: Configure FPGA Vendor Flow</strong> 用于配置关联厂商流程。创建空工程后可继续添加源码；空工程不能视为已经验证设计编译。</p>`),
+    section('create', '先创建工程，再调整顶层', `<ol><li>打开工作区并保存已有设计源码；新工程不需要预先创建 project.json 或运行独立顶层设置命令。</li><li>点击 Project 标题栏“创建厂商工程”，或执行 <strong>XLXL: Initialize Project</strong>。</li><li>按 ${link('project', '实际创建向导')} 填厂商、器件、工程名及分支参数；扫描到源码时，向导中会询问设计顶层。</li><li>等待本机工具创建并验证 <code>prj/</code> 中的原生工程，成功后才写配置。</li><li>以后可运行 <strong>XLXL: Set Top Module</strong> 调整设计顶层，再进行同步。</li></ol><p>目录与厂商文件名详见 ${link('project', '完整工程目录')}，空工程尚未验证源码编译。已有 PDS 工程使用 <strong>XLXL: Attach PDS Project</strong> 前，必须已加载有效 XLXL 配置且 <code>toolchain.tool</code> 为 <code>pds</code>。它只确认所选 .pds 存在且非空，器件和编译仍需在 PDS 中验证。</p><p><strong>XLXL: Configure FPGA Vendor Flow</strong> 要求已有有效配置，选择厂商后打开配置文件，仍需填写真实 projectFile；TD 还需 buildScript 和适配版本的 buildArgs。它不是自动导入任意厂商工程的完整向导。</p>`),
     section('sync', '变更后先预览同步', `<p>增加/删除 HDL、调整 includePaths、defines、约束或顶层后，执行 <strong>XLXL: Sync Vendor Project</strong>。先关闭对应厂商工程 GUI，避免厂商软件同时写入工程。</p><ol><li>保存所有相关配置和源码。</li><li>查看同步预览，核对受管理文件增删与配置变更。</li><li>确认后应用，再检查同步结果。</li><li>需要排错时查看 <code>.xlxl/sync</code> 中的日志。</li></ol><p>同步会保护主工程备份并在失败时尝试恢复。配置变化或未保存编辑触发冲突时，先处理这些修改，再重新同步。</p>`),
     section('build', '构建并确认本次产物', `<p>运行 <strong>XLXL: Build FPGA Bitstream</strong>，在 <strong>XLXL FPGA Build</strong> 阅读实时日志。Diamond 和 PDS 可使用原生工程入口；TD 需要由厂商软件导出的 Tcl 构建流程。</p><p>插件会结合退出码、真实错误与本次新增/更新的非空产物判断结果，避免旧位流导致假成功。构建记录位于 <code>.xlxl/build/&lt;运行ID&gt;/result.json</code>；新建 Diamond 工程的 bit/jed 自动归集到 <code>fw/</code>。</p><p>构建支持取消和超时，<code>xlxl.vendorBuildTimeout</code> 默认 7200 秒。结束后默认打开 ${link('build-reports', '构建结果报告')}，失败和超时也保留报告。</p>`),
     section('vendor-limits', '厂商差异与限制', `<ul><li><strong>Diamond：</strong>设计含 SystemVerilog 时必须选择 Synplify Pro 并准备其许可证；LSE 不支持 SystemVerilog。</li><li><strong>TD：</strong>构建路径设为 <code>td_commands_prompt.exe</code>，Linux 为 <code>td_commands_prompt</code>；配置厂商导出 Tcl。宏值不能包含空白，复杂值可写进头文件。</li><li><strong>PDS：</strong>创建和构建使用 pds_shell；器件系列、封装和速度等级须与硬件及安装库匹配。</li><li><strong>中文路径：</strong>TD 提示路径不存在时，尝试把工程及引用文件移至英文目录。</li></ul>${note('XLXL 在此生成厂商构建产物；当前教程没有板卡烧录、JTAG 在线调试或时序收敛自动修复步骤。')}`),
   ]),
 
   article('build-reports', 'build', '阅读构建结果报告', '把构建状态、资源、时序与来源证据放在一起看，并比较兼容历史。', 8, '进阶', ['报告', '资源', '时序'], [
-    section('open', '打开本次或历史报告', `<p>厂商构建结束后，<code>xlxl.buildReport.openAfterBuild</code> 默认自动打开报告。也可在 Toolchain 点击“查看最近构建报告”，或运行 <strong>XLXL: Show Latest Build Report</strong> 并选择历史。</p><p>已有外部报告可通过 <strong>XLXL: Analyze Existing Build Reports</strong> 手动选择分析。手选来源会明确标注无法证明所属构建，适合阅读已有文件，但不能把它当作本轮新生成的结果。</p>`),
+    section('open', '打开本次、历史或已有报告', `<p>厂商构建结束后，<code>xlxl.buildReport.openAfterBuild</code> 默认自动打开报告。也可在 Toolchain 点击“查看最近构建报告”，或运行 <strong>XLXL: Show Latest Build Report</strong> 并选择历史。</p><p>分析已有文件时，运行 <strong>XLXL: Analyze Existing Build Reports</strong>，先在<strong>选择报告工具</strong>中选择厂商，再在“选择厂商日志或报告”中多选相关日志/报告。手选来源会标注无法证明所属构建，不能把旧文件当作本轮新生成的结果。</p>`),
     section('status', '分开阅读构建与时序', `<p>先确认构建状态和产物，再查看独立的时序判断。构建成功不代表时序一定通过；时序字段缺失也不代表时序已被验证。</p><p>面板支持消息筛选、重复消息去重次数、资源使用量/容量/利用率、阶段耗时及来源快照。点击可验证的来源位置查看证据，结合原始日志理解异常。</p>${note('0 条约束路径、未约束提示、哨兵 slack 和缺失时序值，不会被解释为“时序通过”。', true)}`),
     section('support', '三家工具的解析范围', `${table(['厂商', '已验证的字段'], [['Diamond', 'Registers、SLICE、LUT4 使用量/容量；setup/hold slack；约束覆盖路径数；时钟 MHz；布局布线耗时与消息'], ['PDS', 'Total LUTs、Registers、DRM18K、APMs、I/O ports 使用量/容量；已识别阶段和耗时；未约束提示与消息；不推断 WNS/TNS'], ['TD', '已观察的消息、阶段命令与耗时；暂不支持资源与时序汇总']])}<p>未出现的指标保持缺失，不从其他数字猜测。自动收集仅分析可确认属于本次的输出范围：Diamond 未指定实现、TD 未确认输出目录时，可能仅分析本次构建日志。</p>`),
     section('history', '比较历史并检查来源', `<p>兼容历史差值要求工作区、厂商、工程、器件和实现一致，并且指标名称和单位匹配。满足条件时才比较资源等指标，避免把不同配置的构建放在同一基准上。</p><p>旧报告或只更新时间戳但内容不变的文件不计入本次指标。对异常跳变，先核对来源快照和实现，再看实际源码及约束变更。工作区切换后旧报告操作失效，需要重新打开当前报告。</p>`),
   ]),
 
   article('wave-mcp', 'simulation-group', '可选的 wave-mcp 分析', '为波形建立外部分析会话，查询层次、驱动源与近似 X 态证据。', 9, '进阶', ['wave-mcp', '驱动源', 'X 态'], [
-    section('scope', '先了解依赖与验证状态', `<p>基础 VCD 查看无需 wave-mcp。只有需要驱动源、X 态和进阶查询时，才安装与配置这一可选 stdio 后端；Windows 可使用本地 Python 或 WSL。</p>${note('当前 XLXL 已验证 wave-mcp 协议交互与会话生命周期，但开发环境缺少真实后端，尚未完成真实后端端到端验收。请先用小波形验证本机组合。', true)}<p>FST 或更大波形可交给外部后端/查看器；高级查看器也需要另行安装。</p>`),
-    section('configure', '配置后端并检查连接', `<ol><li>执行 <strong>XLXL: Wave MCP Setup Guide</strong>，按接入说明安装支持的 wave-mcp 后端。</li><li>执行 <strong>XLXL: Configure Wave MCP</strong>，选择运行环境与 Python。</li><li>执行 <strong>XLXL: Check Wave MCP Connection</strong>。</li><li>在 <strong>XLXL Wave MCP</strong> 输出频道查看握手与错误信息。</li></ol>${code('JSON', `{
+    section('scope', '先核对分析前提', `<p>基础 VCD 查看无需 wave-mcp。进阶查询需要另装 stdio 后端，并满足：<strong>受信任的本地工作区、有效 XLXL 配置、与波形 Testbench 匹配的 simulationTopModule、已保存的源码/头文件和配置</strong>。Windows 可使用本地 Python 或 WSL。</p>${note('当前 XLXL 已验证 wave-mcp 协议交互与会话生命周期，但开发环境缺少真实后端，尚未完成真实后端端到端验收。请先用小波形验证本机组合。', true)}<p>FST 或更大波形可交给外部后端/查看器；高级查看器也需要另行安装。</p>`),
+    section('configure', '配置后端并检查连接', `<ol><li>执行 <strong>XLXL: Wave MCP Setup Guide</strong>，按接入说明安装支持的后端。</li><li>执行 <strong>XLXL: Configure Wave MCP</strong>，依次选择运行环境、Python 路径；WSL 模式还会询问发行版。</li><li>配置写入工作区后会<strong>自动检查连接</strong>，在 XLXL Wave MCP 输出频道查看结果。</li><li>之后可用 <strong>XLXL: Check Wave MCP Connection</strong> 单独重查。</li></ol>${code('JSON', `{
   "xlxl.waveMcp.backend": "native",
   "xlxl.waveMcp.pythonPath": "",
   "xlxl.waveMcp.timeout": 180,
   "xlxl.waveMcp.afterSimulation": false
 }`)}<p>pythonPath 留空时从 PATH 查找，必须指向已安装后端的环境。WSL 模式填写 Linux 路径，wslDistribution 留空使用默认发行版；Remote WSL 窗口使用 native。</p>`),
-    section('analyze', '为同一波形建立会话', `<p>对 VCD/FST 运行 <strong>XLXL: Analyze Waveform with Wave MCP</strong>，插件会携带顶层、源码、包含目录和宏，并使用独立分析目录。成功后再查询该波形，避免把旧会话套到另一个文件。</p><p>单次分析请求受 <code>xlxl.waveMcp.timeout</code> 控制。若希望 Icarus 成功后自动分析，可在验证手动流程后开启 <code>xlxl.waveMcp.afterSimulation</code>，默认关闭。</p>`),
+    section('analyze', '为当前波形创建匹配会话', `<p>先保存分析输入，核对 simulationTopModule，再对 VCD/FST 运行 <strong>XLXL: Analyze Waveform with Wave MCP</strong>。插件携带顶层、源码、包含目录和宏，创建独立分析会话。</p><p>波形信号查询提示没有匹配会话时，点击<strong>创建匹配会话</strong>，为当前波形重新分析；连接检查成功并不代表已有波形会话。单次请求受 <code>xlxl.waveMcp.timeout</code> 控制。</p><p>验证手动流程后，可开启 <code>xlxl.waveMcp.afterSimulation</code> 在仿真成功后自动分析，默认关闭。</p>`),
     section('query', '查询信号并返回源码', `<p>在波形查看器选择信号后，可查询驱动源或 X 态。结果以可展开树和原始 JSON 展示；能验证的源码位置提供跳转。无法唯一映射信号或验证位置时会说明原因，可改用 <strong>XLXL: Query Wave MCP</strong> 手动查询。</p><p>这些结果依赖后端能力与分析输入，X 态追踪属于近似分析，不应直接替代仿真和源码核对。可通过 <strong>XLXL: Open Wave MCP Viewer</strong> 调用另外安装的高级查看器。</p>`),
     section('lifecycle', '刷新、导出和停止', `<p>源文件、头文件、宏和工程配置变化后需重新分析；取消或切换工作区会停止过期操作。不要继续依赖旧会话的源码跳转。</p><p><strong>XLXL: Export Wave MCP Configuration</strong> 导出接入配置；<strong>XLXL: Stop Wave MCP</strong> 停止连接。连接失败先核对 Python 环境与后端安装，再看输出频道中的结构化错误。</p>`),
   ]),
@@ -708,7 +720,7 @@ end`)}<p>另需为设计提供时钟、复位与输入激励。未执行 dump �
   ]),
 
   article('commands', 'reference', '命令与快捷键', '按场景查找命令面板中的准确名称和 ID，快速连接界面与操作。', 7, '参考', ['命令', '快捷键', '入口'], [
-    section('palette', '使用命令面板', `<p>按 <code>Ctrl+Shift+P</code>，输入 <code>XLXL</code>，然后按下表中的名称搜索。执行 <strong>XLXL：使用教程</strong>（<code>xlxl.openTutorial</code>）可打开教程网站，Toolchain 的“使用教程”和 Project 标题栏的书本图标提供相同入口。</p><p>大多数模块工具也可在 Modules 节点或 HDL 编辑器右键进入；信号追踪提供专用侧栏。下表只列扩展允许显示在命令面板中的命令。连接定位、定义选择以及诊断准备/应用等内部入口由相应 UI 调用，不应当作独立命令运行。</p>`),
+    section('palette', '使用命令面板', `<p>按 <code>Ctrl+Shift+P</code>，输入 <code>XLXL</code>，按下表名称搜索。<strong>1.1.2 新增</strong> <strong>XLXL：使用教程</strong>（<code>xlxl.openTutorial</code>）；Toolchain 的“使用教程”和 Project 标题栏书本图标提供相同入口，1.1.1 没有这三处教程入口。</p><p>模块工具可从 Modules 节点或 HDL 编辑器右键进入；命令面板和编辑器入口会要求选择 DUT 定义，Modules 节点直接提供定义。下表只列允许显示在命令面板中的命令，内部连接定位、定义选择和诊断准备/应用入口由相应 UI 调用。</p>`),
     section('catalog', '1.1.2 命令列表', table(['命令面板名称', '命令 ID'], commandCatalog.map(item => [escapeHtml(item.title), `<code>${escapeHtml(item.command)}</code>`]))),
     section('shortcuts', 'VS Code 常用默认快捷键', `${table(['动作', '默认快捷键', '说明'], [['命令面板', '<code>Ctrl+Shift+P</code>', '搜索 XLXL 命令'], ['补全', '<code>Ctrl+Space</code>', '按上下文选择模块、端口、参数和成员'], ['定义', '<code>F12</code>', '定位声明/定义'], ['引用', '<code>Shift+F12</code>', '查找符号使用位置'], ['重命名', '<code>F2</code>', '等待语义刷新完成后使用'], ['格式化文档', '<code>Shift+Alt+F</code>', '选择 XLXL 为格式化器'], ['格式化选区', '<code>Ctrl+K</code>，再按 <code>Ctrl+F</code>', '按选区覆盖的行整理'], ['撤销', '<code>Ctrl+Z</code>', '撤销本次格式化或编辑']])}<p>以上为 VS Code 常见 Windows 默认键位，实际按键可能受系统、键位方案或个人设置影响；可通过“键盘快捷方式”查看和自定义。</p>`),
   ]),
