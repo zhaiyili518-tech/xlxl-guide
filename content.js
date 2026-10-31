@@ -1,4 +1,4 @@
-// Tutorial content grounded in XLXL 1.1.2. This module intentionally has no network dependency.
+// Tutorial content grounded in XLXL 1.2.0. This module intentionally has no network dependency.
 const escapeHtml = value => String(value).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 const code = (lang, value) => `<pre data-lang="${escapeHtml(lang)}"><code>${escapeHtml(value.trim())}</code></pre>`;
 const table = (headers, rows) => `<table><thead><tr>${headers.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.map(row => `<tr>${row.map(x => `<td>${x}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
@@ -214,7 +214,7 @@ const settingsCatalog = [
       {
         "key": "xlxl.formatter.alignPorts",
         "default": true,
-        "description": "对齐多行端口声明和参数；例化端口连接按首行间距对齐左右括号。",
+        "description": "对齐端口和参数。端口按方向、类型和位宽分列，每列最宽内容后留四个空格。内部信号按四列制表位对齐，例化端口按首行间距对齐圆括号。",
         "enum": []
       },
       {
@@ -530,10 +530,11 @@ const renderSettings = indices => indices.map(index => {
 
 export const articles = [
   article('install', 'start', '安装 XLXL', '准备 VS Code 与插件，明确内置能力和需要自行安装的工具。', 4, '入门', ['安装', 'VSIX', 'Windows'], [
-    section('requirements', '准备开发环境', `<p>XLXL 将 Verilog / SystemVerilog 的编辑、工程管理、诊断、仿真与波形查看放进 VS Code。本文档对应 <strong>1.1.2</strong>；插件完整 ID 为 <code>zhaiyl.xlxl</code>，要求 VS Code 1.85.0 或兼容的更新版本。</p><ul><li>Windows x64 已附带 Slang 语义服务与 Verible 格式化器。</li><li>Icarus Verilog、Vivado、ModelSim、QuestaSim 和 FPGA 厂商软件按使用需要自行安装。</li><li>其他平台需自行提供适用的 Slang 与 Verible 工具。</li></ul>${note('只体验补全、导航和格式化时，可以先安装 XLXL，随后再配置仿真或 FPGA 工具。')}`),
-    section('install-vsix', '通过 VSIX 安装', `<ol><li>取得 XLXL 的 <code>.vsix</code> 安装包，核对版本和发布者 <code>zhaiyl</code>。</li><li>在 VS Code 打开扩展视图，点击右上角“…”并选择“从 VSIX 安装…”。</li><li>选择安装包，完成后按 VS Code 提示重新加载窗口。</li><li>在扩展详情中确认名称为 XLXL、插件 ID 为 <code>zhaiyl.xlxl</code>。</li></ol><p>也可在配置好 VS Code 命令行后安装本地包：</p>${code('PowerShell', 'code --install-extension .\\xlxl-1.1.2.vsix')}<p>如果安装较新版本，替换上述文件名；不要使用历史发布者 <code>xlxl.xlxl</code> 作为设置或格式化器 ID。</p>`),
+    section('requirements', '准备开发环境', `<p>XLXL 将 Verilog / SystemVerilog 的编辑、工程管理、诊断、仿真与波形查看放进 VS Code。本文档对应 <strong>1.2.0</strong>；插件完整 ID 为 <code>zhaiyl.xlxl</code>，要求 VS Code 1.85.0 或兼容的更新版本。</p><ul><li>Windows x64 已附带 Slang 语义服务与 Verible 格式化器。</li><li>Icarus Verilog、Vivado、ModelSim、QuestaSim 和 FPGA 厂商软件按使用需要自行安装。</li><li>其他平台需自行提供适用的 Slang 与 Verible 工具。</li></ul>${note('只体验补全、导航和格式化时，可以先安装 XLXL，随后再配置仿真或 FPGA 工具。')}`),
+    section('marketplace', '安装或升级到 1.2', `<p>在 VS Code 扩展视图中搜索 <code>@id:zhaiyl.xlxl</code>，打开 XLXL，点击“安装”或“更新”。也可以打开 <a href="https://marketplace.visualstudio.com/items?itemName=zhaiyl.xlxl">XLXL 商店页面</a>。安装后，在扩展详情页核对发布者 <code>zhaiyl</code> 和版本 <code>1.2.0</code>。</p><p>1.2 系列更新了端口整理规则。打开 ${link('formatting', '格式化教程')} 试跑示例，或阅读 <a href="https://github.com/zhaiyili518-tech/xlxl-guide/blob/main/CHANGELOG.md">按次版本归并的完整日志</a>。</p>`),
+    section('install-vsix', '通过 VSIX 安装', `<ol><li>取得 XLXL 的 <code>.vsix</code> 安装包，核对版本和发布者 <code>zhaiyl</code>。</li><li>在 VS Code 打开扩展视图，点击右上角“…”并选择“从 VSIX 安装…”。</li><li>选择安装包，完成后按 VS Code 提示重新加载窗口。</li><li>在扩展详情中确认名称为 XLXL、插件 ID 为 <code>zhaiyl.xlxl</code>。</li></ol><p>也可在配置好 VS Code 命令行后安装本地包：</p>${code('PowerShell', 'code --install-extension .\\xlxl-1.2.0.vsix')}<p>如果安装较新版本，替换上述文件名；不要使用历史发布者 <code>xlxl.xlxl</code> 作为设置或格式化器 ID。</p>`),
     section('activate', '打开第一个 HDL 工作区', `<ol><li>用“文件 → 打开文件夹”打开工程根目录。</li><li>打开一个 <code>.v</code> 或 <code>.sv</code> 文件，确认右下角语言为 Verilog 或 SystemVerilog。</li><li>在受信任的 Windows x64 本地工作区中，等待 Slang 语义服务就绪。</li><li>点击左侧 XLXL 图标，查看 Project、Modules 和 Toolchain。</li></ol><p>预期结果：编辑器识别 HDL，命令面板中可以找到 XLXL 命令。尚未建立 <code>.xlxl/project.json</code> 时，Project 会提示缺少工程配置；基础编辑功能仍可使用。</p>`),
-    section('next', '验证安装并继续', `<p>在 HDL 中输入 <code>module</code> 后按 <code>Ctrl+Space</code> 查看模板，按 <code>Shift+Alt+F</code> 试用格式化。如果安装了多个格式化插件，在“使用…格式化文档”中选择 XLXL。</p><p><strong>1.1.2 新增入口：</strong>在命令面板执行 <strong>XLXL：使用教程</strong>（<code>xlxl.openTutorial</code>），或点击 Toolchain 中的“使用教程”、Project 标题栏的书本图标。1.1.1 没有这些教程入口，本文的工程创建与目录流程在 1.1.1 中相同。</p><p>从 Toolchain 点击“打开 XLXL 设置”，或在 VS Code 设置中搜索 <code>@ext:zhaiyl.xlxl</code>。接下来按 ${link('quickstart', '十分钟跑通计数器')} 完成第一次仿真；需要完整厂商工程请阅读 ${link('project', '创建与接入工程')}。</p>`),
+    section('next', '验证安装并继续', `<p>在 HDL 中输入 <code>module</code> 后按 <code>Ctrl+Space</code> 查看模板，按 <code>Shift+Alt+F</code> 试用格式化。如果安装了多个格式化插件，在“使用…格式化文档”中选择 XLXL。</p><p>在命令面板执行 <strong>XLXL：使用教程</strong>（<code>xlxl.openTutorial</code>），或点击 Toolchain 中的“使用教程”、Project 标题栏的书本图标。</p><p>从 Toolchain 点击“打开 XLXL 设置”，或在 VS Code 设置中搜索 <code>@ext:zhaiyl.xlxl</code>。接下来按 ${link('quickstart', '十分钟跑通计数器')} 完成第一次仿真；需要完整厂商工程请阅读 ${link('project', '创建与接入工程')}。</p>`),
   ]),
 
   article('quickstart', 'start', '十分钟跑通计数器', '用一个可下载的小工程，完成编辑、检查、Icarus 仿真和波形观察。', 10, '入门', ['快速开始', '快速上手', '示例', 'Icarus'], [
@@ -554,14 +555,14 @@ export const articles = [
   article('workspace', 'start', '认识 XLXL 工作区', '理解三个主要视图、源码分类与工作区根目录，找到每项操作的入口。', 5, '入门', ['界面', 'Project', 'Modules'], [
     section('views', '从左侧栏开始', `<p>打开 HDL 文件后点击 XLXL 活动栏图标。<strong>Project</strong> 展示工程配置和分类文件；<strong>Modules</strong> 展示模块层次；<strong>Toolchain</strong> 展示工具检测结果与常用入口。信号追踪结果显示在独立的“信号追踪”视图。</p><p>可从命令面板输入 <code>XLXL</code> 找到大多数功能。模块工具还可从 Modules 节点右键或 HDL 编辑器右键进入。</p>`),
     section('project-tree', '读懂 Project 分类与目录', `${table(['Project 分类', '新建工程默认目录', '配置字段'], [['RTL Sources', '<code>rtl/</code>；include 中的 HDL 头文件也进入源码范围', '<code>sources</code>'], ['IP Cores', '<code>ip/</code>', '<code>ipSources</code>'], ['Simulation', '<code>sim/</code>，存放 Testbench 源码', '<code>simulationSources</code>'], ['Firmware', '<code>fw/</code>', '<code>firmwareSources</code>'], ['Constraints', '<code>constraints/</code>', '<code>constraints</code>'], ['Online Debug (RVL)', '<code>rvl/</code>', '<code>debugFiles</code>'], ['Project Scripts', '<code>prj/</code> 中匹配的 Tcl/DO 脚本', '<code>scripts</code>']])}<p>这些是配置驱动的文件分类，不是资源管理器的目录镜像；已有配置可以指向其他目录。完整生成结构还包含 <code>doc/</code>、<code>include/</code> 和内部 <code>.xlxl/</code>，见 ${link('project', '工程目录结构')}。顶部显示器件、Top、Sim 和厂商，已关联时还显示“厂商工程”入口。</p>${note('Online Debug (RVL) 是文件管理分组。当前 XLXL 没有在这里提供板卡连接、JTAG 下载或片上信号采集功能。')}`),
-    section('modules-tools', '查看层次和工具状态', `<p>Modules 有设计顶层时从该模块开始展示；没有明确顶层时，优先显示未被其他模块例化的候选根。实例使用“实例名: 模块名”展示，找不到定义或出现循环时会给出标记。点击节点可跳转源码。</p><p>Toolchain 提供“打开 XLXL 设置”“配置工具路径”“格式化设置（缩进 / 行宽 / 对齐）”“查看最近构建报告”和“分析已有厂商报告”。<strong>1.1.2 新增</strong> Toolchain 的“使用教程”、Project 标题栏书本图标，以及命令 <strong>XLXL：使用教程</strong>；1.1.1 没有这些教程入口。编辑器右下方的语法工具状态可点击切换检查器。</p><p>新建完整厂商工程使用 Project 标题栏文件夹按钮“创建厂商工程”。只刷新现有工程用 <strong>XLXL: Refresh Project</strong>；索引为空先检查文件范围。</p>`),
-    section('roots', '区分源码目录、运行缓存和波形', `<p>所有工程相对路径基于打开的工作区文件夹；多文件夹工作区目前使用<strong>第一个文件夹</strong>。${link('project', '完整目录树与创建流程')}与已安装 1.1.1 的工程行为一致。</p>${table(['路径', '实际内容'], [['<code>sim/</code>', '用户的 Testbench 等仿真源码'], ['<code>.xlxl/sim/&lt;运行ID&gt;/</code>', 'simulation.vvp 与本次运行 result.json'], ['<code>wave.vcd</code>（根目录）', '使用 $dumpfile("wave.vcd") 时生成；相对路径以运行工作目录即工程根为准'], ['<code>.xlxl/lint/</code>', '外部检查缓存'], ['<code>.xlxl/build/</code>、<code>.xlxl/sync/</code>', '按操作生成的构建报告、同步日志和备份']])}<p>厂商工程位于 <code>prj/</code>；<code>doc/</code> 是模块文档目录，名称为单数。切换工作区后，旧图、报告和追踪需重新打开。</p>`),
+    section('modules-tools', '查看层次和工具状态', `<p>Modules 有设计顶层时从该模块开始展示；没有明确顶层时，优先显示未被其他模块例化的候选根。实例使用“实例名: 模块名”展示，找不到定义或出现循环时会给出标记。点击节点可跳转源码。</p><p>Toolchain 提供“打开 XLXL 设置”“配置工具路径”“格式化设置（缩进 / 行宽 / 对齐）”“查看最近构建报告”和“分析已有厂商报告”。可从 Toolchain 的“使用教程”、Project 标题栏书本图标或命令 <strong>XLXL：使用教程</strong> 打开本站。编辑器右下方的语法工具状态可点击切换检查器。</p><p>新建完整厂商工程使用 Project 标题栏文件夹按钮“创建厂商工程”。只刷新现有工程用 <strong>XLXL: Refresh Project</strong>；索引为空先检查文件范围。</p>`),
+    section('roots', '区分源码目录、运行缓存和波形', `<p>所有工程相对路径基于打开的工作区文件夹；多文件夹工作区目前使用<strong>第一个文件夹</strong>。${link('project', '完整目录树与创建流程')}展示创建厂商工程时生成的目录。</p>${table(['路径', '实际内容'], [['<code>sim/</code>', '用户的 Testbench 等仿真源码'], ['<code>.xlxl/sim/&lt;运行ID&gt;/</code>', 'simulation.vvp 与本次运行 result.json'], ['<code>wave.vcd</code>（根目录）', '使用 $dumpfile("wave.vcd") 时生成；相对路径以运行工作目录即工程根为准'], ['<code>.xlxl/lint/</code>', '外部检查缓存'], ['<code>.xlxl/build/</code>、<code>.xlxl/sync/</code>', '按操作生成的构建报告、同步日志和备份']])}<p>厂商工程位于 <code>prj/</code>；<code>doc/</code> 是模块文档目录，名称为单数。切换工作区后，旧图、报告和追踪需重新打开。</p>`),
   ]),
 
   article('project', 'project-group', '配置与接入工程', '从插件创建向导开始，核对真实工程目录，再按需调整已有源码范围。', 9, '入门', ['project.json', '工程', '目录结构', '顶层'], [
     section('existing', '从 Project 创建厂商工程', `<p>需要完整 FPGA 工程时，先用 VS Code 打开工程文件夹，安装并配置所用的 Diamond、TD 或 PDS 及许可证。然后点击 <strong>XLXL → Project 标题栏的文件夹按钮“创建厂商工程”</strong>，或执行 <strong>XLXL: Initialize Project</strong>。不需要先手写 project.json。</p><p>已有 RTL 可先放在默认 <code>rtl/</code>、IP 放在 <code>ip/</code>；向导按实际匹配的文件导入，不会搬迁文件。已有有效配置时保留其中的源码规则。向导没有目录布局选择器，也不会自动生成设计源码或 Testbench。</p><p>如果只是练习编辑和 Icarus 仿真，可以直接打开 ${link('quickstart', '已带配置的精简练习包')}；该包不代表完整厂商工程结构。</p>`),
     section('native', '按实际向导顺序填写', `<ol><li>在“创建厂商工程”中选择 <strong>Lattice</strong>、<strong>安路 Anlogic</strong> 或 <strong>紫光同创 Pango</strong>。</li><li>填写“器件型号”，再填写“工程名称”；名称不会改变工作区文件夹。</li><li>Diamond 填写“Diamond Implementation 名称”，默认 <code>impl1</code>；PDS 依次填写“器件系列 Family”“封装 Package”“速度等级 Speed Grade”。</li><li>插件检查本机工具；Diamond 随后选择“Diamond 综合器”：Lattice LSE（默认）或 Synplify Pro。含 SystemVerilog 设计时只提供 Synplify Pro。</li><li>扫描到设计源码时填写“设置工程顶层模块”；没有源码的空工程跳过此步。</li><li>等待调用厂商工具创建并验证。成功后才写入 <code>.xlxl/project.json</code>，并显示原生工程位置。</li></ol><p>已有配置时先出现“重新生成 / 取消”提示；已有同名厂商文件或实现目录会受到保护。器件、许可证或工具不满足要求时，不能把向导填写完成视为工程已创建。</p>`),
-    section('directories', '核对插件生成的完整目录', `<p>以下是向导创建阶段生成的目录及成功后写入的配置，工程创建行为在 1.1.1 与 1.1.2 中相同：</p>${code('Text', generatedProjectTree)}<p><code>rtl/</code> 是设计源码，<code>ip/</code> 是 IP，<code>sim/</code> 是 Testbench 源码；<code>constraints/</code> 放约束，<code>rvl/</code> 放 RVL 文件，<code>fw/</code> 放固件，<code>include/</code> 放头文件，<code>doc/</code> 放模块文档。目录创建不等于自动生成这些文件。</p><p>厂商主工程分别为 <code>prj/&lt;工程名&gt;.ldf</code>、<code>prj/&lt;工程名&gt;.al</code>、<code>prj/&lt;工程名&gt;.pds</code>。实现目录及报告由具体工具产生，不要求三家布局一致；Diamond 默认实现常为 prj/impl1。</p><p><code>.xlxl/sim/</code> 是内部编译缓存，与用户 <code>sim/</code> 不同。同步、构建等缓存按操作另行生成；<code>$dumpfile("wave.vcd")</code> 的相对路径会写到工程根目录。</p>`),
+    section('directories', '核对插件生成的完整目录', `<p>以下是向导创建阶段生成的目录及成功后写入的配置。</p>${code('Text', generatedProjectTree)}<p><code>rtl/</code> 是设计源码，<code>ip/</code> 是 IP，<code>sim/</code> 是 Testbench 源码；<code>constraints/</code> 放约束，<code>rvl/</code> 放 RVL 文件，<code>fw/</code> 放固件，<code>include/</code> 放头文件，<code>doc/</code> 放模块文档。目录创建不等于自动生成这些文件。</p><p>厂商主工程分别为 <code>prj/&lt;工程名&gt;.ldf</code>、<code>prj/&lt;工程名&gt;.al</code>、<code>prj/&lt;工程名&gt;.pds</code>。实现目录及报告由具体工具产生，不要求三家布局一致；Diamond 默认实现常为 prj/impl1。</p><p><code>.xlxl/sim/</code> 是内部编译缓存，与用户 <code>sim/</code> 不同。同步、构建等缓存按操作另行生成；<code>$dumpfile("wave.vcd")</code> 的相对路径会写到工程根目录。</p>`),
     section('top-modules', '创建后分别设置两种顶层', `<ol><li>工程创建成功后添加或保存设计与 Testbench。</li><li>执行 <strong>XLXL: Set Top Module</strong> 选择设计根模块。</li><li>执行 <strong>XLXL: Set Simulation Top Module</strong> 选择 Testbench。</li><li>在 Project 顶部核对 Top 与 Sim；修改厂商相关输入后执行 ${link('vendor', '同步预览')}。</li></ol><p>这两个命令要求已有有效 XLXL 配置。创建向导中的“设置工程顶层模块”是创建过程的一步，不要在空白工程中先运行独立设置命令。配置项分别为 topModule 与 simulationTopModule，后者不会更改前者。</p><p>修改配置后先保存，等待刷新完成再继续操作。转义模块名在配置中填写名称本身，例如 <code>tb.x</code>。</p>`),
     section('patterns', '进阶可选：仅源码配置与非默认目录', `<p>只做编辑、检查和 Icarus 仿真时，可以手工建立有效配置；这不会创建上面的目录或厂商工程。下面是练习包的完整最小配置，适合新的源码练习目录，<strong>不要用它覆盖向导已生成的厂商配置</strong>：</p>${code('JSON', projectExample)}<p>已有配置请只修改需要的字段，保留 device、toolchain、constraints 等。sources、ipSources、simulationSources 各自控制设计、IP 和仿真范围，路径基于工作区；includePaths 填真实目录，defines 每项一个宏。<code>sources: []</code> 不扫描设计源码，其他范围仍独立生效。</p>${note('没有 toolchain 的源码配置不能直接进行厂商同步或构建。需要厂商流程时，使用创建向导，或在已有有效配置上配置并关联真实厂商工程。')}`),
     section('fallback', '已有文件与配置如何被识别', `<p>向导使用文件范围扫描现有文件并把路径导入厂商工程，不会将任意目录中的源码自动移动到 rtl/。已有项目采用其他布局时，应在现有配置中调整匹配规则，再保存、刷新和同步。</p><p>没有配置时，基础模块树按 <code>xlxl.sourceGlobs</code> 扫描，默认 rtl/ 与 ip/；Slang 扫描工作区 HDL，范围可能不同。配置无效时 Project 会给出提示；检查非空 name、sources 字符串数组和其他字段类型。代码编辑无需先创建厂商工程。</p>`),
@@ -594,10 +595,23 @@ export const articles = [
     section('rename', '安全完成跨文件重命名', `<ol><li>保存工程配置，等待语义刷新完成。</li><li>将光标放在目标符号，按 F2，输入新名称本身。</li><li>检查 VS Code 提供的修改范围，再应用更改并保存。</li><li>重新检查和仿真受影响模块。</li></ol><p>插件会生成必要的 HDL 转义语法，并检查模块名称冲突。源码和头文件保存后自动重新加载语义工程；期间不要继续发起重命名。</p><p>若提示目标范围与当前文件不一致，打开提示涉及的文件，执行 <strong>XLXL: Restart Semantic Server</strong> 后重试，日志入口为 <strong>XLXL: Show Semantic Log</strong>。</p>`),
   ]),
 
-  article('formatting', 'editor', '统一代码格式', '整理全文、选区或保存时格式，控制缩进、端口和赋值对齐。', 6, '入门', ['Verible', '格式化', '对齐'], [
+  article('formatting', 'editor', '统一代码格式', '整理全文、选区或保存时格式，控制缩进、端口和赋值对齐。', 6, '入门', ['Verible', '格式化', '对齐', '端口', '四个空格'], [
     section('run', '格式化全文或选区', `<p>在 HDL 编辑器点击右上角整理按钮，或执行 <strong>XLXL: Format HDL Document or Selection</strong>。没有选择时整理全文，有选择时仅处理选区覆盖的代码行。一次 <code>Ctrl+Z</code> 可撤销。</p><ol><li>先在一个可正常解析的模块上试运行。</li><li>选择几行端口连接，再点同一按钮，验证选区外保持原样。</li><li>如需 VS Code 标准入口，全文用 <code>Shift+Alt+F</code>；选区用 <code>Ctrl+K</code> 后按 <code>Ctrl+F</code>。</li></ol><p>反向选区也适用；选区结束在下一行开头时，不会顺带整理该行。安装多个格式化器时，请选择 XLXL。</p>`),
-    section('options', '设置缩进与块风格', `${table(['设置', '默认', '作用'], [['<code>xlxl.formatter.style</code>', '<code>kr</code>', '可选 kr / ansi / gnu'], ['<code>xlxl.formatter.indentSize</code>', '<code>0</code>', '0 跟随编辑器；1–16 指定空格数'], ['<code>xlxl.formatter.columnLimit</code>', '<code>100</code>', '目标行宽，不保证拆开每一条长行'], ['<code>xlxl.formatter.alignPorts</code>', '<code>true</code>', '端口、参数和例化连接对齐'], ['<code>xlxl.formatter.alignAssignments</code>', '<code>true</code>', '连续单行赋值对齐 = 或 &lt;=']])}<p>在 Toolchain 点击“格式化设置（缩进 / 行宽 / 对齐）”可直接定位设置。Verible 输出空格；不会根据硬件功能改写逻辑。</p>`),
-    section('alignment', '理解首行对齐规则', `<p>例化连接以第一条端口连接为参照，保留其括号相对缩进的间距，后续行左右括号分别对齐。更长端口名或表达式会扩展整组列位置。对齐使用空格，空连接仍保留方向提示。</p><p>连续单行赋值同样参考组内第一行，对齐 <code>=</code> 或 <code>&lt;=</code>。空行、独立注释和控制语句分隔组；条件中的比较运算符不参与赋值对齐。只选择组内后几行时，仍参考选区外首行，但不会修改它。</p>`),
+    section('options', '设置缩进与块风格', `${table(['设置', '默认', '作用'], [['<code>xlxl.formatter.style</code>', '<code>kr</code>', '可选 kr / ansi / gnu'], ['<code>xlxl.formatter.indentSize</code>', '<code>0</code>', '0 跟随编辑器；1–16 指定空格数'], ['<code>xlxl.formatter.columnLimit</code>', '<code>100</code>', '目标行宽，不保证拆开每一条长行'], ['<code>xlxl.formatter.alignPorts</code>', '<code>true</code>', '端口每列最宽字段后留四格，同时控制内部声明、参数和例化连接对齐'], ['<code>xlxl.formatter.alignAssignments</code>', '<code>true</code>', '连续单行赋值对齐 = 或 &lt;=']])}<p>在 Toolchain 点击“格式化设置（缩进 / 行宽 / 对齐）”可直接定位设置。Verible 输出空格；不会根据硬件功能改写逻辑。</p>`),
+    section('port-columns', '端口列宽怎么计算', `<p>每一列都找到组内最宽的字段，再留四个空格给下一列。下面的 <code>output</code> 比 <code>input</code> 长一个字符，前者后面留四格，后者补五格，三个端口名就从同一列开始。逗号紧跟普通端口名。</p>${code('Verilog', `module wx1860_ports (
+    output    o_WX1860_RST_N,
+    input     i_LAN1_LINK_ACT_N,
+    input     i_LAN2_LINK_ACT_N
+);
+endmodule`)}<p>给端口加上 <code>wire</code>、<code>reg</code> 或位宽时，各字段分别占一列。类型或位宽缺省的行直接补到名称列。位宽里的方括号、冒号同列，数字右对齐。</p>${code('Verilog', `module mixed_ports (
+    output    reg     [15:0]    o_FM_VALUE,
+    input                       i_START,
+    // LAN
+    input     wire    [ 1:0]    i_LAN_VALUE,
+    input     wire              i_RESET_N
+);
+endmodule`)}<p><a href="./assets/examples/port-alignment.sv" download>下载可整理的 SystemVerilog 示例</a>，在 VS Code 中打开并按 <code>Shift+Alt+F</code>。第三个模块可用来检查包类型、条件编译、数组、沿用方向的端口名和转义名称。转义名称后面的空格是 HDL 语法的一部分。</p><p>独立注释和条件编译的不同分支共用列宽；空行与格式化禁用区划分新组。只选中一行整理时，仍按整组计算列宽，选区外保持原样。</p>`),
+    section('alignment', '例化连接与赋值怎样对齐', `<p>例化连接以第一条端口连接为参照，保留其括号相对缩进的间距，后续行左右括号分别对齐。更长端口名或表达式会扩展整组列位置。对齐使用空格，空连接仍保留方向提示。</p><p>连续单行赋值同样参考组内第一行，对齐 <code>=</code> 或 <code>&lt;=</code>。空行、独立注释和控制语句分隔组；条件中的比较运算符不参与赋值对齐。只选择组内后几行时，仍参考选区外首行，但不会修改它。</p>`),
     section('save', '启用保存时格式化', `<p>在 VS Code 的 <code>settings.json</code> 中合并以下设置。若文件已有其他内容，保留既有字段，避免重复写入同一个 JSON 键：</p>${code('JSON', formatExample)}<p>预期结果：保存 Verilog 或 SystemVerilog 文件时使用 <code>zhaiyl.xlxl</code> 整理当前内容。可以按语言单独开启，而无需对全部文件启用。</p>`),
     section('protected', '保留手工排版并排查失败', `${code('Verilog', `// verilog_format: off
 // 在这里保留经过人工对齐的代码或表格。
@@ -712,16 +726,16 @@ end`)}<p>另需为设计提供时钟、复位与输入激励。未执行 dump �
     section('lifecycle', '刷新、导出和停止', `<p>源文件、头文件、宏和工程配置变化后需重新分析；取消或切换工作区会停止过期操作。不要继续依赖旧会话的源码跳转。</p><p><strong>XLXL: Export Wave MCP Configuration</strong> 导出接入配置；<strong>XLXL: Stop Wave MCP</strong> 停止连接。连接失败先核对 Python 环境与后端安装，再看输出频道中的结构化错误。</p>`),
   ]),
 
-  article('settings', 'reference', '设置参考', '按实际 1.1.2 配置字段查找默认值、路径规则与覆盖范围。', 8, '参考', ['设置', '默认值', '路径'], [
-    section('open', '打开、保存和恢复设置', `<p>执行 <strong>XLXL: Open Settings</strong>，或在 VS Code 设置中搜索 <code>@ext:zhaiyl.xlxl</code>。可通过用户设置为所有工程设默认值，通过工作区设置为当前工程覆盖；工作区值优先。</p><p>工具路径建议使用“配置工具路径”向导，它会验证实际程序，并提供恢复自动扫描/内置版本的操作。工程源码范围、顶层、包含目录和宏保存在 <code>.xlxl/project.json</code>，不是下表中的 VS Code 全局设置。所有默认值来自 XLXL 1.1.2 的扩展声明。</p>`),
+  article('settings', 'reference', '设置参考', '按实际 1.2.0 配置字段查找默认值、路径规则与覆盖范围。', 8, '参考', ['设置', '默认值', '路径'], [
+    section('open', '打开、保存和恢复设置', `<p>执行 <strong>XLXL: Open Settings</strong>，或在 VS Code 设置中搜索 <code>@ext:zhaiyl.xlxl</code>。可通过用户设置为所有工程设默认值，通过工作区设置为当前工程覆盖；工作区值优先。</p><p>工具路径建议使用“配置工具路径”向导，它会验证实际程序，并提供恢复自动扫描/内置版本的操作。工程源码范围、顶层、包含目录和宏保存在 <code>.xlxl/project.json</code>，不是下表中的 VS Code 全局设置。所有默认值来自 XLXL 1.2.0 的扩展声明。</p>`),
     section('paths', '工具路径与检测', renderSettings([0])),
     section('language', '语法、语义与格式化', renderSettings([1, 2])),
     section('execution', '仿真、构建与源码发现', renderSettings([3, 4, 5])),
   ]),
 
   article('commands', 'reference', '命令与快捷键', '按场景查找命令面板中的准确名称和 ID，快速连接界面与操作。', 7, '参考', ['命令', '快捷键', '入口'], [
-    section('palette', '使用命令面板', `<p>按 <code>Ctrl+Shift+P</code>，输入 <code>XLXL</code>，按下表名称搜索。<strong>1.1.2 新增</strong> <strong>XLXL：使用教程</strong>（<code>xlxl.openTutorial</code>）；Toolchain 的“使用教程”和 Project 标题栏书本图标提供相同入口，1.1.1 没有这三处教程入口。</p><p>模块工具可从 Modules 节点或 HDL 编辑器右键进入；命令面板和编辑器入口会要求选择 DUT 定义，Modules 节点直接提供定义。下表只列允许显示在命令面板中的命令，内部连接定位、定义选择和诊断准备/应用入口由相应 UI 调用。</p>`),
-    section('catalog', '1.1.2 命令列表', table(['命令面板名称', '命令 ID'], commandCatalog.map(item => [escapeHtml(item.title), `<code>${escapeHtml(item.command)}</code>`]))),
+    section('palette', '使用命令面板', `<p>按 <code>Ctrl+Shift+P</code>，输入 <code>XLXL</code>，按下表名称搜索。执行 <strong>XLXL：使用教程</strong> 可打开本站（<code>xlxl.openTutorial</code>）。Toolchain 的“使用教程”和 Project 标题栏书本图标提供相同入口。</p><p>模块工具可从 Modules 节点或 HDL 编辑器右键进入；命令面板和编辑器入口会要求选择 DUT 定义，Modules 节点直接提供定义。下表只列允许显示在命令面板中的命令，内部连接定位、定义选择和诊断准备/应用入口由相应 UI 调用。</p>`),
+    section('catalog', '1.2.0 命令列表', table(['命令面板名称', '命令 ID'], commandCatalog.map(item => [escapeHtml(item.title), `<code>${escapeHtml(item.command)}</code>`]))),
     section('shortcuts', 'VS Code 常用默认快捷键', `${table(['动作', '默认快捷键', '说明'], [['命令面板', '<code>Ctrl+Shift+P</code>', '搜索 XLXL 命令'], ['补全', '<code>Ctrl+Space</code>', '按上下文选择模块、端口、参数和成员'], ['定义', '<code>F12</code>', '定位声明/定义'], ['引用', '<code>Shift+F12</code>', '查找符号使用位置'], ['重命名', '<code>F2</code>', '等待语义刷新完成后使用'], ['格式化文档', '<code>Shift+Alt+F</code>', '选择 XLXL 为格式化器'], ['格式化选区', '<code>Ctrl+K</code>，再按 <code>Ctrl+F</code>', '按选区覆盖的行整理'], ['撤销', '<code>Ctrl+Z</code>', '撤销本次格式化或编辑']])}<p>以上为 VS Code 常见 Windows 默认键位，实际按键可能受系统、键位方案或个人设置影响；可通过“键盘快捷方式”查看和自定义。</p>`),
   ]),
 

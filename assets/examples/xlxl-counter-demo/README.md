@@ -6,7 +6,7 @@
 ## 1. 准备环境
 
 - 安装 VS Code 1.85 或更新版本。
-- 获取项目提供的 `xlxl-1.1.2.vsix`，在 VS Code 扩展面板的“…”菜单选择“从 VSIX 安装…”，或执行 `code --install-extension .\xlxl-1.1.2.vsix`。安装后在扩展详情页确认插件 ID 为 `zhaiyl.xlxl`。
+- 获取项目提供的 `xlxl-1.2.0.vsix`，在 VS Code 扩展面板的“…”菜单选择“从 VSIX 安装…”，或执行 `code --install-extension .\xlxl-1.2.0.vsix`。安装后在扩展详情页确认插件 ID 为 `zhaiyl.xlxl`。
 - 安装 Icarus Verilog，确保 `iverilog` 与 `vvp` 可用。
 - 解压 ZIP 后，用 VS Code 的“文件 → 打开文件夹”打开 **xlxl-counter-demo 文件夹本身**。该目录应直接包含 `.xlxl`、`rtl` 和 `sim`。
 
